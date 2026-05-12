@@ -1,5 +1,6 @@
 /* ============================================================
-   spotify.css — Indicateur fixed bottom-left + badge sur bouton streaming
+   spotify.css — Indicateur "now playing" + badge bouton streaming
+   Couleurs alignées sur la palette du site (doré + noir)
    ============================================================ */
 
 /* ---- Indicateur "Now playing" : icône repliable en bas à gauche ---- */
@@ -11,17 +12,22 @@
   display: flex;
   align-items: center;
   background: rgba(8, 8, 8, 0.92);
-  border: 1px solid rgba(29, 185, 84, 0.45);
+  border: 1px solid var(--border-2);
   backdrop-filter: blur(8px);
   border-radius: 100px;
-  max-width: 44px; /* replié : seulement l'icône */
+  max-width: 44px;
   padding: 0;
   overflow: hidden;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
-  transition: max-width .3s cubic-bezier(.4,0,.2,1);
+  transition: max-width .3s cubic-bezier(.4,0,.2,1), border-color .25s;
 }
 .now-playing.hidden { display: none; }
-.now-playing.expanded { max-width: 380px; padding-right: 0.6rem; }
+
+.now-playing.expanded {
+  max-width: 500px;
+  padding-right: 0.7rem;
+  border-color: var(--gold);
+}
 
 .np-icon {
   width: 44px; height: 44px;
@@ -35,16 +41,16 @@
 
 .np-pulse {
   width: 12px; height: 12px; border-radius: 50%;
-  background: #1DB954;
-  box-shadow: 0 0 0 0 rgba(29, 185, 84, 0.6);
+  background: var(--gold);
+  box-shadow: 0 0 0 0 rgba(201, 168, 76, 0.6);
   animation: np-pulse 1.8s ease-in-out infinite;
 }
 
 .np-expand {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  color: #1DB954;
+  gap: 0.55rem;
+  color: var(--gold);
   font-size: 0.78rem;
   font-weight: 500;
   white-space: nowrap;
@@ -63,15 +69,15 @@
 .np-text {
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 260px;
+  max-width: 380px;
 }
 
 .np-close {
   width: 22px; height: 22px;
   display: inline-flex; align-items: center; justify-content: center;
   background: transparent;
-  color: rgba(29, 185, 84, 0.6);
-  border: 1px solid rgba(29, 185, 84, 0.35);
+  color: var(--text-dim);
+  border: 1px solid var(--border-2);
   border-radius: 50%;
   font-size: 0.7rem; cursor: pointer; font-family: inherit;
   flex-shrink: 0;
@@ -84,20 +90,20 @@
 }
 
 @keyframes np-pulse {
-  0%   { box-shadow: 0 0 0 0   rgba(29, 185, 84, 0.6); }
-  70%  { box-shadow: 0 0 0 8px rgba(29, 185, 84, 0); }
-  100% { box-shadow: 0 0 0 0   rgba(29, 185, 84, 0); }
+  0%   { box-shadow: 0 0 0 0   rgba(201, 168, 76, 0.55); }
+  70%  { box-shadow: 0 0 0 8px rgba(201, 168, 76, 0); }
+  100% { box-shadow: 0 0 0 0   rgba(201, 168, 76, 0); }
 }
 
 @media (max-width: 700px) {
   .now-playing { bottom: 0.75rem; left: 0.75rem; }
   .now-playing.expanded { max-width: calc(100vw - 1.5rem); }
-  .np-text { max-width: 200px; }
+  .np-text { max-width: calc(100vw - 110px); }
 }
 
 /* ---- Badge "⚡ Live" sur le bouton streaming Spotify quand Spotify Live est connecté ---- */
 .stream-btn.spotify.live-connected {
-  box-shadow: 0 0 0 2px rgba(29, 185, 84, 0.5);
+  box-shadow: 0 0 0 2px var(--gold);
   position: relative;
 }
 .stream-btn.spotify.live-connected::after {
