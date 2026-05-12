@@ -7,11 +7,15 @@ import {
   verifyPassword, signSession, setSessionCookie,
   validEmail,
 } from '../../lib/auth.js';
+import { applyRateLimit } from '../../lib/ratelimit.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
+
+  // Rate limit : 5 essais / 5 min par IP (anti-brute-force)
+  if (await applyRateLimit(req, res, 'login')) return;
 
   const { email, password } = req.body || {};
   if (!validEmail(email) || typeof password !== 'string') {

@@ -11,7 +11,10 @@ export const spotifyState = {
   lastPolledAt: 0,
 };
 
-const POLL_INTERVAL_MS = 10000;
+// Intervalles adaptatifs (économise le quota Upstash + l'API Spotify)
+const INTERVAL_PLAYING   = 10_000; // 10s quand Spotify joue
+const INTERVAL_IDLE      = 30_000; // 30s quand pas de lecture
+const INTERVAL_DISCONNECTED = 60_000; // 1min si pas connecté à Spotify Live
 
 const listeners = new Set();
 export function onSpotifyChange(cb) {
@@ -25,6 +28,13 @@ function notify() {
 }
 
 let pollTimer = null;
+let pollingActive = false;
+
+function nextInterval() {
+  if (!spotifyState.connected) return INTERVAL_DISCONNECTED;
+  if (spotifyState.playing)    return INTERVAL_PLAYING;
+  return INTERVAL_IDLE;
+}
 
 export async function fetchNowPlaying() {
   try {
@@ -41,26 +51,37 @@ export async function fetchNowPlaying() {
   }
 }
 
+function scheduleNext() {
+  if (!pollingActive) return;
+  if (pollTimer) clearTimeout(pollTimer);
+  pollTimer = setTimeout(async () => {
+    if (!pollingActive) return;
+    await fetchNowPlaying();
+    scheduleNext();
+  }, nextInterval());
+}
+
 export function startSpotifyPolling() {
   stopSpotifyPolling();
-  fetchNowPlaying();
-  pollTimer = setInterval(fetchNowPlaying, POLL_INTERVAL_MS);
-  // Stoppe si l'onglet n'est pas visible (économise les requêtes)
+  pollingActive = true;
+  fetchNowPlaying().then(scheduleNext);
   document.addEventListener('visibilitychange', onVisibility);
 }
 
 export function stopSpotifyPolling() {
-  if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+  pollingActive = false;
+  if (pollTimer) { clearTimeout(pollTimer); pollTimer = null; }
   document.removeEventListener('visibilitychange', onVisibility);
 }
 
 function onVisibility() {
   if (document.hidden) {
-    if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+    // Onglet en arrière-plan : on pause le polling
+    if (pollTimer) { clearTimeout(pollTimer); pollTimer = null; }
   } else {
-    if (!pollTimer) {
-      fetchNowPlaying();
-      pollTimer = setInterval(fetchNowPlaying, POLL_INTERVAL_MS);
+    // Onglet revient au premier plan : on relance
+    if (pollingActive) {
+      fetchNowPlaying().then(scheduleNext);
     }
   }
 }

@@ -6,6 +6,7 @@
   "description": "Catalogue tes vinyles avec estimation Discogs et streaming",
   "dependencies": {
     "@upstash/redis": "^1.28.0",
+    "@upstash/ratelimit": "^1.0.1",
     "bcryptjs": "^2.4.3",
     "jose": "^5.2.0"
   }

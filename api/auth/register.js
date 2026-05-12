@@ -7,11 +7,15 @@ import {
   hashPassword, signSession, setSessionCookie,
   validEmail, validPassword,
 } from '../../lib/auth.js';
+import { applyRateLimit } from '../../lib/ratelimit.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
+
+  // Rate limit : 3 inscriptions / heure par IP (anti-spam)
+  if (await applyRateLimit(req, res, 'register')) return;
 
   const { email, password } = req.body || {};
 
