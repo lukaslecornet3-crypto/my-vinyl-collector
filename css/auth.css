@@ -1,0 +1,61 @@
+/* ============================================================
+   auth.css — Bouton navbar + modal "Se connecter / S'inscrire"
+   ============================================================ */
+
+/* ---- Bouton navbar ---- */
+.auth-btn {
+  display:inline-flex; align-items:center; gap:6px;
+  padding:.4rem .85rem; height:36px;
+  background:transparent; color:var(--text-muted);
+  font-size:.78rem; font-family:inherit; font-weight:500;
+  border:1px solid var(--border-2); border-radius:var(--radius);
+  cursor:pointer; max-width:200px;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  transition:border-color var(--tr), color var(--tr), background var(--tr);
+}
+.auth-btn:hover           { border-color:var(--gold); color:var(--gold); }
+.auth-btn.logged-in       { color:var(--gold); border-color:#2a2200; background:var(--bg-2); }
+.auth-btn.logged-in:hover { border-color:#c0392b; color:#e74c3c; }
+
+/* ---- Modal ---- */
+.modal-auth { max-width:420px; }
+
+#authForm {
+  display:flex; flex-direction:column; gap:1rem;
+}
+#authForm label {
+  display:flex; flex-direction:column; gap:6px;
+  font-size:.78rem; color:var(--text-dim);
+}
+.auth-input {
+  padding:.6rem .85rem;
+  background:var(--bg-3); border:1px solid var(--border-2);
+  border-radius:var(--radius); color:var(--text);
+  font-size:.9rem; font-family:inherit; outline:none;
+  transition:border-color var(--tr);
+}
+.auth-input:focus { border-color:var(--gold); }
+
+.auth-error {
+  min-height:18px;
+  font-size:.78rem; color:#e74c3c;
+}
+
+#authSubmit { width:100%; justify-content:center; }
+#authSubmit:disabled { opacity:.6; cursor:wait; }
+
+.auth-toggle {
+  display:flex; gap:6px; justify-content:center; align-items:center;
+  font-size:.78rem; color:var(--text-dim);
+  border-top:1px solid var(--border); padding-top:1rem;
+}
+.link-btn {
+  background:none; border:none; color:var(--gold);
+  cursor:pointer; font-family:inherit; font-size:inherit;
+  text-decoration:underline; padding:0;
+}
+.link-btn:hover { color:var(--gold-hover); }
+
+@media (max-width:700px) {
+  .auth-btn { max-width:120px; padding:.3rem .55rem; font-size:.72rem; }
+}

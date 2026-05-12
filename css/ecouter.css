@@ -1,0 +1,41 @@
+/* ============================================================
+   ecouter.css — Page Écouter (liens streaming + tracklist)
+   ============================================================ */
+
+.ecouter-content { padding:2.5rem; display:flex; flex-direction:column; align-items:center; gap:2rem; }
+.eco-nav-row     { display:flex; align-items:center; gap:1.5rem; }
+.player-vinyl-wrap { width:220px; height:220px; }
+.player-info     { text-align:center; }
+.player-title    { font-size:1.5rem; font-weight:700; margin-bottom:.25rem; }
+.player-artist   { color:var(--gold); font-size:.9rem; font-weight:500; }
+
+.streaming-buttons { display:flex; gap:.75rem; flex-wrap:wrap; justify-content:center; }
+.stream-btn {
+  display:inline-flex; align-items:center; gap:10px;
+  padding:.7rem 1.4rem; border-radius:50px;
+  font-size:.82rem; font-weight:600; font-family:inherit;
+  cursor:pointer; color:#fff; border:none;
+  transition:transform var(--tr), filter var(--tr), box-shadow var(--tr);
+  will-change:transform;
+}
+.stream-icon { width:18px; height:18px; flex-shrink:0; }
+.stream-btn.spotify  { background:#1DB954; }
+.stream-btn.youtube  { background:#FF0000; }
+.stream-btn.apple    { background:linear-gradient(135deg,#fc3c44,#f71c2d); }
+.stream-btn:hover    { transform:translateY(-2px); filter:brightness(1.1); box-shadow:0 6px 20px var(--shadow); }
+.stream-btn:active   { transform:translateY(0); }
+.stream-btn.disabled { opacity:.35; pointer-events:none; }
+
+.track-section       { width:100%; max-width:420px; }
+.track-section-title { font-size:.72rem; letter-spacing:1.5px; text-transform:uppercase; color:var(--text-dark); margin-bottom:.75rem; }
+.track-list          { display:flex; flex-direction:column; gap:4px; }
+.track-item {
+  display:flex; align-items:center; gap:1rem;
+  padding:.6rem .75rem; border-radius:var(--radius);
+  cursor:pointer; transition:background var(--tr);
+}
+.track-item:hover   { background:var(--bg-2); }
+.track-item.playing { background:var(--bg-2); color:var(--gold); }
+.track-num   { font-size:.7rem; color:var(--text-dark); width:16px; text-align:center; }
+.track-name  { font-size:.82rem; flex:1; }
+.track-dur   { font-size:.72rem; color:var(--text-dark); }

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Vinyl Collector</title>
+  <meta name="description" content="Cataloguez, valorisez et écoutez votre collection de vinyles.">
+  <meta name="theme-color" content="#080808">
+  <meta property="og:title" content="My Vinyl Collector">
+  <meta property="og:description" content="Cataloguez, valorisez et écoutez votre collection de vinyles.">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://coverartarchive.org">
+  <link rel="preconnect" href="https://musicbrainz.org">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/collection.css">
+  <link rel="stylesheet" href="css/valeur.css">
+  <link rel="stylesheet" href="css/ecouter.css">
+  <link rel="stylesheet" href="css/stats.css">
+  <link rel="stylesheet" href="css/modals.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="stylesheet" href="css/responsive.css">
+
+  <!-- FIX FLASH THÈME : applique le thème AVANT le rendu HTML -->
+  <script>
+    (function(){
+      try{
+        var t=localStorage.getItem('theme');
+        if(t) document.documentElement.setAttribute('data-theme',t);
+      }catch(e){}
+    })();
+  </script>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="logo">
+    <div class="logo-disc"></div>
+    My Vinyl<span>.</span>Collector
+  </div>
+  <div class="nav-links">
+    <ul>
+      <li><a href="#" class="nav-link active" data-page="home">Accueil</a></li>
+      <li><a href="#" class="nav-link" data-page="collection">Collection</a></li>
+      <li><a href="#" class="nav-link" data-page="valeur">Valeur</a></li>
+      <li><a href="#" class="nav-link" data-page="ecouter">Écouter</a></li>
+      <li><a href="#" class="nav-link" data-page="stats">Statistiques</a></li>
+    </ul>
+  </div>
+  <button class="theme-toggle" id="themeToggle" aria-label="Changer le thème">
+    <span class="theme-icon">🌙</span>
+  </button>
+  <button class="auth-btn" id="authBtn" title="Se connecter">Se connecter</button>
+</nav>
+
+<!-- ========== HOME ========== -->
+<div class="page active" id="page-home">
+  <div class="hero">
+    <div class="hero-text">
+      <div class="eyebrow">Ma collection personnelle</div>
+      <h1>Chaque sillon<br>raconte une <em>histoire</em></h1>
+      <p class="hero-desc">Cataloguez, valorisez et écoutez vos vinyles au même endroit.</p>
+      <div class="cta-row">
+        <button class="btn-gold nav-link" data-page="collection">Voir ma collection →</button>
+        <button class="btn-outline nav-link" data-page="valeur">Estimer un vinyle</button>
+      </div>
+    </div>
+    <div class="vinyl-stage">
+      <div class="vinyl-wrap"><canvas id="heroVinyl" width="300" height="300"></canvas></div>
+      <div class="vinyl-hint">← glisser pour tourner →</div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== COLLECTION ========== -->
+<div class="page" id="page-collection">
+  <div class="page-header">
+    <div class="page-header-row">
+      <div>
+        <h2>Ma collection</h2>
+        <p id="colCount">0 vinyle</p>
+      </div>
+      <div class="col-actions">
+        <button class="btn-outline" id="importBtn">⬆ Importer</button>
+        <button class="btn-outline" id="exportBtn">⬇ Exporter</button>
+        <button class="btn-gold"    id="openAddModal">+ Ajouter</button>
+      </div>
+    </div>
+    <div class="col-toolbar">
+      <div class="search-bar-wrap">
+        <span class="search-bar-icon">🔍</span>
+        <input type="search" id="colSearch" class="col-search" placeholder="Rechercher dans ma collection...">
+      </div>
+      <div class="filter-group">
+        <select id="filterSort" class="filter-select">
+          <option value="default">Tri : pertinence</option>
+          <option value="title">Titre A→Z</option>
+          <option value="artist">Artiste A→Z</option>
+          <option value="year-asc">Année ↑</option>
+          <option value="year-desc">Année ↓</option>
+        </select>
+        <select id="filterState" class="filter-select">
+          <option value="">Tous les états</option>
+          <option value="Mint (M)">Mint</option>
+          <option value="Near Mint (NM)">Near Mint</option>
+          <option value="Excellent (VG+)">Excellent</option>
+          <option value="Très bon (VG)">Très bon</option>
+          <option value="Bon (G+)">Bon</option>
+          <option value="Passable (G)">Passable</option>
+        </select>
+      </div>
+      <div class="view-toggle">
+        <button class="view-btn active" id="viewList" aria-label="Vue liste">☰</button>
+        <button class="view-btn"        id="viewGrid" aria-label="Vue grille">⊞</button>
+      </div>
+    </div>
+  </div>
+
+  <input type="file" id="importFile" accept=".csv" style="display:none">
+
+  <div class="empty-state" id="emptyState">
+    <div class="empty-icon">💿</div>
+    <div class="empty-title">Ta collection est vide</div>
+    <div class="empty-sub">Clique sur "+ Ajouter" pour commencer !</div>
+  </div>
+
+  <div id="viewListContainer" style="display:none;">
+    <div class="vinyl-viewer" id="vinylViewer">
+      <div class="viewer-stage">
+        <button class="nav-arrow" id="colPrev">&#8592;</button>
+        <div class="big-vinyl-wrap" id="colVinylWrap">
+          <canvas id="colVinyl" width="280" height="280"></canvas>
+        </div>
+        <div class="album-info">
+          <div class="album-title"  id="colTitle"></div>
+          <div class="album-artist" id="colArtist"></div>
+          <dl class="album-meta">
+            <div class="meta-row"><dt class="meta-key">Année</dt><dd class="meta-val" id="colYear"></dd></div>
+            <div class="meta-row"><dt class="meta-key">Label</dt><dd class="meta-val" id="colLabel"></dd></div>
+            <div class="meta-row"><dt class="meta-key">État</dt> <dd class="meta-val" id="colCondition"></dd></div>
+          </dl>
+          <div class="album-actions">
+            <button class="btn-outline btn-sm" id="detailBtn">🔍 Détails</button>
+            <button class="btn-delete"         id="deleteBtn">🗑 Supprimer</button>
+          </div>
+        </div>
+        <button class="nav-arrow" id="colNext">&#8594;</button>
+      </div>
+      <div class="dots" id="colDots"></div>
+    </div>
+  </div>
+
+  <div id="viewGridContainer" class="grid-container" style="display:none;"></div>
+</div>
+
+<!-- ========== VALEUR ========== -->
+<div class="page" id="page-valeur">
+  <div class="page-header">
+    <h2>Valeur de mes vinyles</h2>
+    <p>Estimation automatique via Discogs ou calcul local</p>
+  </div>
+  <div class="valeur-content">
+    <div class="valeur-viewer">
+      <div class="val-nav-row">
+        <button class="nav-arrow2" id="valPrev">&#8592;</button>
+        <div class="val-vinyl-wrap" id="valVinylWrap">
+          <canvas id="valVinyl" width="200" height="200"></canvas>
+        </div>
+        <button class="nav-arrow2" id="valNext">&#8594;</button>
+      </div>
+      <div class="price-card">
+        <div class="price-big"   id="valPrice">—</div>
+        <div class="price-label" id="valName">—</div>
+        <div class="price-source" id="valSource"></div>
+        <div class="price-bars">
+          <div class="bar-row"><span class="bar-label">Bas</span>  <div class="bar-track"><div class="bar-fill"      id="barLow"></div></div><span class="bar-val" id="valLow"></span></div>
+          <div class="bar-row"><span class="bar-label">Moyen</span><div class="bar-track"><div class="bar-fill mid"  id="barMid"></div></div><span class="bar-val" id="valMid"></span></div>
+          <div class="bar-row"><span class="bar-label">Haut</span> <div class="bar-track"><div class="bar-fill high" id="barHigh"></div></div><span class="bar-val" id="valHigh"></span></div>
+        </div>
+      </div>
+    </div>
+    <div class="val-counter"><span id="valIdx">1</span> / <span id="valTotal">0</span></div>
+  </div>
+</div>
+
+<!-- ========== ÉCOUTER ========== -->
+<div class="page" id="page-ecouter">
+  <div class="page-header">
+    <h2>Écouter</h2>
+    <p>Ouvre ton album directement sur ta plateforme préférée</p>
+  </div>
+  <div class="ecouter-content">
+    <div class="eco-nav-row">
+      <button class="nav-arrow2" id="ecoPrev">&#8592;</button>
+      <div class="player-vinyl-wrap" id="ecoVinylWrap">
+        <canvas id="ecoVinyl" width="220" height="220"></canvas>
+      </div>
+      <button class="nav-arrow2" id="ecoNext">&#8594;</button>
+    </div>
+    <div class="player-info">
+      <div class="player-title"  id="ecoTitle">—</div>
+      <div class="player-artist" id="ecoArtist">—</div>
+    </div>
+    <div class="streaming-buttons">
+      <a id="spotifyBtn" class="stream-btn spotify" target="_blank" rel="noopener noreferrer">
+        <svg class="stream-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+        Spotify
+      </a>
+      <a id="youtubeBtn" class="stream-btn youtube" target="_blank" rel="noopener noreferrer">
+        <svg class="stream-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        YouTube Music
+      </a>
+      <a id="appleBtn" class="stream-btn apple" target="_blank" rel="noopener noreferrer">
+        <svg class="stream-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701z"/></svg>
+        Apple Music
+      </a>
+    </div>
+    <div class="track-section">
+      <div class="track-section-title">Pistes de l'album</div>
+      <div class="track-list" id="trackList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== STATISTIQUES ========== -->
+<div class="page" id="page-stats">
+  <div class="page-header">
+    <h2>Statistiques</h2>
+    <p>Vue d'ensemble de ta collection</p>
+  </div>
+  <div class="stats-content">
+    <div id="statsEmpty" style="display:none;" class="empty-state">
+      <div class="empty-icon">📊</div>
+      <div class="empty-title">Aucun vinyle dans ta collection</div>
+    </div>
+
+    <!-- Chiffres clés -->
+    <div class="stats-kpis">
+      <div class="kpi-card">
+        <div class="kpi-value" id="statCount">0</div>
+        <div class="kpi-label">Vinyles</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value" id="statTotal">—</div>
+        <div class="kpi-label">Valeur totale estimée</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value" id="statTopArtist">—</div>
+        <div class="kpi-label">Artiste le + représenté</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value" id="statTopCond">—</div>
+        <div class="kpi-label">État le plus fréquent</div>
+      </div>
+    </div>
+
+    <!-- Graphique par décennie -->
+    <div class="stats-section">
+      <div class="stats-section-title">Répartition par décennie</div>
+      <div class="stats-chart" id="statsChart"></div>
+    </div>
+
+    <!-- Répartition par état -->
+    <div class="stats-section">
+      <div class="stats-section-title">État des disques</div>
+      <div class="stat-cond-list" id="statCondList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== MODAL AJOUT ========== -->
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Ajouter un vinyle</h3>
+      <button class="modal-close" id="closeModal">✕</button>
+    </div>
+    <div class="modal-step" id="step1">
+      <div class="search-row">
+        <input type="search" id="searchInput" class="search-input" placeholder="Titre ou artiste..." autocomplete="off">
+        <button class="btn-gold" id="searchBtn">Rechercher</button>
+      </div>
+      <div class="search-status"  id="searchStatus"></div>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+    <div class="modal-step hidden" id="step2">
+      <div class="confirm-top">
+        <div class="confirm-vinyl-wrap"><canvas id="previewVinyl" width="130" height="130"></canvas></div>
+        <div class="confirm-info">
+          <div class="confirm-title"  id="confirmTitle"></div>
+          <div class="confirm-artist" id="confirmArtist"></div>
+          <div class="confirm-meta"   id="confirmMeta"></div>
+          <div class="modal-fields">
+            <label for="conditionSelect">État du disque
+              <select id="conditionSelect" class="modal-select">
+                <option value="Mint (M)">Mint (M) — Neuf</option>
+                <option value="Near Mint (NM)">Near Mint (NM)</option>
+                <option value="Excellent (VG+)" selected>Excellent (VG+)</option>
+                <option value="Très bon (VG)">Très bon (VG)</option>
+                <option value="Bon (G+)">Bon (G+)</option>
+                <option value="Passable (G)">Passable (G)</option>
+              </select>
+            </label>
+            <label for="notesInput">Notes personnelles
+              <textarea id="notesInput" class="modal-input modal-textarea" placeholder="Impressions, provenance..."></textarea>
+            </label>
+          </div>
+          <div class="modal-actions">
+            <button class="btn-outline" id="backBtn">← Retour</button>
+            <button class="btn-gold"    id="confirmAddBtn">Ajouter à ma collection</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== MODAL DÉTAIL ========== -->
+<div class="modal-overlay" id="detailOverlay" role="dialog" aria-modal="true">
+  <div class="modal modal-detail">
+    <div class="modal-header">
+      <h3 id="detailAlbumTitle">Détails</h3>
+      <button class="modal-close" id="closeDetail">✕</button>
+    </div>
+    <div class="detail-content">
+      <div class="detail-vinyl-wrap"><canvas id="detailVinyl" width="200" height="200"></canvas></div>
+      <div class="detail-info">
+        <div class="detail-artist" id="detailArtist"></div>
+        <dl class="detail-meta">
+          <div class="meta-row"><dt class="meta-key">Année</dt>  <dd class="meta-val" id="detailYear"></dd></div>
+          <div class="meta-row"><dt class="meta-key">Label</dt>  <dd class="meta-val" id="detailLabel"></dd></div>
+          <div class="meta-row"><dt class="meta-key">État</dt>   <dd class="meta-val" id="detailCond"></dd></div>
+          <div class="meta-row"><dt class="meta-key">Valeur</dt> <dd class="meta-val gold" id="detailValue"></dd></div>
+        </dl>
+        <div class="detail-notes-label">Notes</div>
+        <div class="detail-notes"  id="detailNotes"></div>
+        <div class="detail-tracks-label">Pistes</div>
+        <div class="detail-tracks" id="detailTracks"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== MODAL AUTH ========== -->
+<div class="modal-overlay" id="authOverlay" role="dialog" aria-modal="true">
+  <div class="modal modal-auth">
+    <div class="modal-header">
+      <h3 id="authTitle">Se connecter</h3>
+      <button class="modal-close" id="closeAuth">✕</button>
+    </div>
+    <form id="authForm" autocomplete="on">
+      <label>
+        Email
+        <input type="email" id="authEmail" class="auth-input" required autocomplete="email" placeholder="ton@email.fr">
+      </label>
+      <label>
+        Mot de passe
+        <input type="password" id="authPassword" class="auth-input" required minlength="8" autocomplete="current-password" placeholder="8 caractères minimum">
+      </label>
+      <div class="auth-error" id="authError"></div>
+      <button type="submit" class="btn-gold" id="authSubmit">Se connecter</button>
+      <div class="auth-toggle">
+        <span id="authToggleText">Pas encore de compte ?</span>
+        <button type="button" class="link-btn" id="authToggleBtn">Créer un compte</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

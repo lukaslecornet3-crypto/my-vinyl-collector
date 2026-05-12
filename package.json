@@ -1,0 +1,12 @@
+{
+  "name": "my-vinyl-collector",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Catalogue tes vinyles avec estimation Discogs et streaming",
+  "dependencies": {
+    "@upstash/redis": "^1.28.0",
+    "bcryptjs": "^2.4.3",
+    "jose": "^5.2.0"
+  }
+}

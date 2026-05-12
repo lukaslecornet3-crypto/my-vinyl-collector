@@ -1,0 +1,35 @@
+/* ============================================================
+   valeur.css — Page Valeur (estimation Discogs)
+   ============================================================ */
+
+.valeur-content { padding:2.5rem; display:flex; flex-direction:column; gap:2rem; }
+.valeur-viewer  { display:flex; align-items:center; gap:3rem; flex-wrap:wrap; }
+.val-nav-row    { display:flex; align-items:center; gap:1rem; }
+.val-vinyl-wrap { width:200px; height:200px; flex-shrink:0; }
+
+.price-card {
+  background:var(--bg-2); border:1px solid var(--border);
+  border-radius:var(--radius-lg); padding:1.5rem;
+  flex:1; min-width:220px;
+}
+.price-big    { font-size:2.5rem; font-weight:700; color:var(--gold); margin-bottom:.25rem; }
+.price-label  { font-size:.75rem; color:var(--text-dim); margin-bottom:.25rem; }
+.price-source { font-size:.68rem; color:var(--text-dark); margin-bottom:.75rem; font-style:italic; }
+.price-bars   { display:flex; flex-direction:column; gap:8px; }
+.bar-row      { display:flex; align-items:center; gap:10px; font-size:.75rem; }
+.bar-label    { color:var(--text-dim); width:60px; }
+.bar-track    { flex:1; height:4px; background:var(--border); border-radius:2px; overflow:hidden; }
+.bar-fill     { height:4px; border-radius:2px; background:var(--gold); width:0%; transition:width .5s cubic-bezier(.4,0,.2,1); will-change:width; }
+.bar-fill.mid  { background:var(--gold-hover); }
+.bar-fill.high { background:#f0d080; }
+.bar-val { color:var(--text-dim); font-size:.75rem; min-width:40px; text-align:right; }
+
+.nav-arrow2 {
+  width:36px; height:36px; border-radius:50%;
+  border:1px solid var(--border-2); background:var(--bg-2); color:var(--text-muted);
+  font-size:1rem; cursor:pointer; font-family:inherit;
+  display:flex; align-items:center; justify-content:center;
+  transition:border-color var(--tr), color var(--tr);
+}
+.nav-arrow2:hover { border-color:var(--gold); color:var(--gold); }
+.val-counter { font-size:.8rem; color:var(--text-dim); }

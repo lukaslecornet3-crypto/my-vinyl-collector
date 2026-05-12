@@ -1,0 +1,56 @@
+/* ============================================================
+   base.css — Variables, thèmes, reset
+   ============================================================ */
+
+:root {
+  --gold:       #c9a84c;
+  --gold-hover: #e0bb5a;
+  --bg:         #080808;
+  --bg-2:       #111111;
+  --bg-3:       #1a1a1a;
+  --border:     #1e1e1e;
+  --border-2:   #2a2a2a;
+  --text:       #ffffff;
+  --text-muted: #888888;
+  --text-dim:   #555555;
+  --text-dark:  #444444;
+  --shadow:     rgba(0,0,0,0.5);
+  --navbar-h:   64px;
+  --radius:     8px;
+  --radius-lg:  12px;
+  --tr:         0.2s ease;
+}
+
+[data-theme="light"] {
+  --bg:         #f5f3ef;
+  --bg-2:       #ffffff;
+  --bg-3:       #ede9e2;
+  --border:     #ddd8cf;
+  --border-2:   #ccc7bc;
+  --text:       #1a1a1a;
+  --text-muted: #666666;
+  --text-dim:   #888888;
+  --text-dark:  #999999;
+  --shadow:     rgba(0,0,0,0.15);
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+a   { text-decoration:none; color:inherit; }
+ul  { list-style:none; }
+img { display:block; max-width:100%; }
+
+@media (prefers-reduced-motion:reduce) {
+  *, *::before, *::after { animation-duration:.01ms !important; transition-duration:.01ms !important; }
+}
+
+body {
+  font-family:'Poppins', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+body.theme-ready {
+  transition: background var(--tr), color var(--tr);
+}

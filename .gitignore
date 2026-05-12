@@ -1,0 +1,22 @@
+# Vercel
+.vercel
+.env
+.env.local
+.env*.local
+
+# Dépendances (au cas où tu ajoutes du Node plus tard)
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Éditeurs
+.vscode/
+.idea/
+*.swp

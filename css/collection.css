@@ -1,0 +1,63 @@
+/* ============================================================
+   collection.css — Vue liste + vue grille
+   ============================================================ */
+
+/* ---- VUE LISTE ---- */
+.vinyl-viewer { padding:2.5rem; display:flex; flex-direction:column; align-items:center; gap:2rem; }
+.viewer-stage { display:flex; align-items:center; gap:2.5rem; }
+
+.big-vinyl-wrap { width:280px; height:280px; flex-shrink:0; overflow:hidden; position:relative; }
+.big-vinyl-wrap canvas {
+  position:absolute; top:0; left:0;
+  transition:transform .35s cubic-bezier(.4,0,.2,1), opacity .35s ease;
+}
+.big-vinyl-wrap canvas.slide-out-left  { transform:translateX(-100%); opacity:0; }
+.big-vinyl-wrap canvas.slide-out-right { transform:translateX(100%);  opacity:0; }
+.big-vinyl-wrap canvas.slide-in-left   { transform:translateX(100%);  opacity:0; }
+.big-vinyl-wrap canvas.slide-in-right  { transform:translateX(-100%); opacity:0; }
+.big-vinyl-wrap canvas.slide-active    { transform:translateX(0);     opacity:1; }
+
+.nav-arrow {
+  width:44px; height:44px; border-radius:50%;
+  border:1px solid var(--border-2); background:var(--bg-2); color:var(--text-muted);
+  font-size:1.2rem; cursor:pointer; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  transition:border-color var(--tr), color var(--tr); font-family:inherit;
+}
+.nav-arrow:hover { border-color:var(--gold); color:var(--gold); }
+
+.album-info    { max-width:260px; }
+.album-title   { font-size:1.3rem; font-weight:700; margin-bottom:.25rem; }
+.album-artist  { color:var(--gold); font-size:.85rem; margin-bottom:1rem; font-weight:500; }
+.album-meta    { display:flex; flex-direction:column; gap:6px; margin-bottom:1rem; }
+.meta-row      { display:flex; justify-content:space-between; font-size:.78rem; }
+.meta-key      { color:var(--text-dark); }
+.meta-val      { color:var(--text-muted); }
+.meta-val.gold { color:var(--gold); }
+.album-actions { display:flex; gap:.5rem; flex-wrap:wrap; }
+
+.dots { display:flex; gap:8px; margin-top:.5rem; flex-wrap:wrap; justify-content:center; }
+.dot  {
+  width:8px; height:8px; border-radius:50%;
+  border:1px solid var(--border-2); background:transparent;
+  cursor:pointer; transition:all var(--tr);
+}
+.dot.active { background:var(--gold); border-color:var(--gold); }
+
+/* ---- VUE GRILLE ---- */
+.grid-container {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+  gap:1.25rem; padding:2rem 2.5rem;
+}
+.grid-item {
+  display:flex; flex-direction:column; gap:.5rem; cursor:pointer;
+  border-radius:var(--radius-lg); padding:.75rem;
+  background:var(--bg-2); border:1px solid var(--border);
+  transition:border-color var(--tr), transform var(--tr), box-shadow var(--tr);
+}
+.grid-item:hover { border-color:var(--gold); transform:translateY(-3px); box-shadow:0 8px 24px var(--shadow); }
+.grid-vinyl-wrap { width:100%; aspect-ratio:1; }
+.grid-vinyl-wrap canvas { border-radius:50%; width:100%; height:100%; }
+.grid-item-title  { font-size:.78rem; font-weight:600; line-height:1.3; }
+.grid-item-artist { font-size:.7rem; color:var(--gold); }
+.grid-item-year   { font-size:.68rem; color:var(--text-dim); }

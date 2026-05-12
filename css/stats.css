@@ -1,0 +1,40 @@
+/* ============================================================
+   stats.css — Page Statistiques (KPIs + graphique + états)
+   ============================================================ */
+
+.stats-content { padding:2.5rem; display:flex; flex-direction:column; gap:2.5rem; }
+
+.stats-kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:1rem; }
+.kpi-card {
+  background:var(--bg-2); border:1px solid var(--border);
+  border-radius:var(--radius-lg); padding:1.25rem;
+  display:flex; flex-direction:column; gap:.4rem;
+}
+.kpi-value { font-size:1.5rem; font-weight:700; color:var(--gold); line-height:1.2; }
+.kpi-label { font-size:.72rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; }
+
+.stats-section { display:flex; flex-direction:column; gap:1rem; }
+.stats-section-title {
+  font-size:.8rem; font-weight:600; letter-spacing:1.5px;
+  text-transform:uppercase; color:var(--text-dim);
+}
+
+/* Graphique décennies */
+.stats-chart {
+  display:flex; align-items:flex-end; gap:.75rem;
+  height:140px; padding:.75rem; background:var(--bg-2);
+  border:1px solid var(--border); border-radius:var(--radius-lg);
+}
+.stat-bar-wrap  { display:flex; flex-direction:column; align-items:center; gap:4px; flex:1; height:100%; justify-content:flex-end; }
+.stat-bar-track { width:100%; flex:1; display:flex; align-items:flex-end; }
+.stat-bar-fill  { width:100%; background:var(--gold); border-radius:4px 4px 0 0; min-height:4px; transition:height .5s cubic-bezier(.4,0,.2,1); }
+.stat-bar-label { font-size:.65rem; color:var(--text-dim); white-space:nowrap; }
+.stat-bar-count { font-size:.65rem; color:var(--gold); font-weight:600; }
+
+/* Répartition par état */
+.stat-cond-list  { display:flex; flex-direction:column; gap:8px; }
+.stat-cond-row   { display:flex; align-items:center; gap:1rem; font-size:.8rem; }
+.stat-cond-name  { color:var(--text-muted); width:140px; flex-shrink:0; }
+.stat-cond-track { flex:1; height:6px; background:var(--border); border-radius:3px; overflow:hidden; }
+.stat-cond-fill  { height:6px; border-radius:3px; background:var(--gold); transition:width .5s ease; }
+.stat-cond-pct   { color:var(--text-dim); font-size:.75rem; min-width:28px; text-align:right; }
