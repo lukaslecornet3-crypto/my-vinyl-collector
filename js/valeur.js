@@ -22,15 +22,20 @@ export async function setValAlbum(i) {
   document.getElementById('valIdx').textContent    = state.valIdx + 1;
   document.getElementById('valTotal').textContent  = ALBUMS.length;
 
+  // Prix défini manuellement par l'utilisateur → on respecte, pas de refresh Discogs
+  if (a.manualPrice) {
+    displayValeur(a.low, a.mid || a.value, a.high, 'manual');
+    return;
+  }
+
   // Affichage immédiat des valeurs sauvegardées (s'il y en a)
   if (a.low && a.low !== '—') {
     displayValeur(a.low, a.mid || a.value, a.high, 'collection');
   } else {
-    // Sinon, on affiche le skeleton pendant le chargement
     card?.classList.add('loading');
   }
 
-  // Tentative Discogs (toujours rafraîchir en arrière-plan)
+  // Refresh Discogs en arrière-plan (uniquement si non manuel)
   const v = await fetchDiscogsValue(a);
   card?.classList.remove('loading');
   displayValeur(v.low, v.mid, v.high, v.source);
@@ -56,6 +61,7 @@ function displayValeur(low, mid, high, source) {
 
   const srcEl = document.getElementById('valSource');
   if (source === 'discogs')         srcEl.textContent = 'Source : Discogs marketplace';
+  else if (source === 'manual')     srcEl.textContent = 'Source : prix défini manuellement';
   else if (source === 'collection') srcEl.textContent = 'Source : ta collection';
   else                              srcEl.textContent = 'Source : estimation locale';
 }

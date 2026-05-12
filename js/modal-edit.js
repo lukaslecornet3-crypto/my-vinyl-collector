@@ -80,7 +80,18 @@ async function handleSubmit(e) {
   a.coverUrl  = F.coverUrl.value.trim();
 
   const mid = priceToString(F.mid.value);
-  if (mid) { a.mid = mid; a.value = mid; }
+  if (mid) {
+    a.mid   = mid;
+    a.value = mid;
+    // Marque ce prix comme manuel → Discogs ne l'écrasera plus
+    a.manualPrice = true;
+    // Recalcule low/high pour cohérence visuelle (±40 % / +70 %)
+    const n = parseInt(mid);
+    if (n) {
+      a.low  = `${Math.round(n * 0.6)} €`;
+      a.high = `${Math.round(n * 1.7)} €`;
+    }
+  }
 
   saveCollection();
   state.filteredAlbums = [...ALBUMS];
