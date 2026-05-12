@@ -20,6 +20,34 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://coverartarchive.org">
   <link rel="preconnect" href="https://musicbrainz.org">
+
+  <!-- CSS critique inline : évite le flash blanc avant le chargement des feuilles externes -->
+  <style>
+    :root{--gold:#c9a84c;--bg:#080808;--bg-2:#111;--bg-3:#1a1a1a;--border:#1e1e1e;--border-2:#2a2a2a;--text:#fff;--text-muted:#888;--text-dim:#555;--text-dark:#444;--navbar-h:64px;--radius:8px;--tr:.2s ease}
+    [data-theme="light"]{--bg:#f5f3ef;--bg-2:#fff;--bg-3:#ede9e2;--border:#ddd8cf;--border-2:#ccc7bc;--text:#1a1a1a;--text-muted:#666;--text-dim:#888;--text-dark:#999}
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    a{text-decoration:none;color:inherit}ul{list-style:none}
+    body{font-family:'Poppins',system-ui,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+    .navbar{position:sticky;top:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:var(--navbar-h);background:var(--bg);border-bottom:1px solid var(--border)}
+    .logo{font-size:1.1rem;font-weight:700;display:flex;align-items:center;gap:10px;letter-spacing:.5px;white-space:nowrap;flex-shrink:0}
+    .logo-disc{width:28px;height:28px;border-radius:50%;border:2.5px solid var(--gold);display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative}
+    .logo-disc::after{content:'';width:7px;height:7px;border-radius:50%;background:var(--gold)}
+    .logo span{color:var(--gold)}
+    .page{display:none}.page.active{display:block}
+    .hero{min-height:calc(100vh - var(--navbar-h));display:flex;align-items:center;justify-content:space-between;padding:3rem 2.5rem;gap:2rem}
+    .hero-text{max-width:520px}
+    .vinyl-stage{flex-shrink:0;display:flex;flex-direction:column;align-items:center}
+    .vinyl-wrap{width:300px;height:300px}
+  </style>
+
+  <!-- Précharge les modules JS critiques en parallèle (gain ~200ms) -->
+  <link rel="modulepreload" href="js/main.js">
+  <link rel="modulepreload" href="js/storage.js">
+  <link rel="modulepreload" href="js/state.js">
+  <link rel="modulepreload" href="js/canvas.js">
+  <link rel="modulepreload" href="js/loop.js">
+  <link rel="modulepreload" href="js/data.js">
+
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;1,400&display=swap">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/layout.css">
