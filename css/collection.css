@@ -9,6 +9,7 @@
 .big-vinyl-wrap { width:280px; height:280px; flex-shrink:0; overflow:hidden; position:relative; }
 .big-vinyl-wrap canvas {
   position:absolute; top:0; left:0;
+  width:100%; height:100%;
   transition:transform .35s cubic-bezier(.4,0,.2,1), opacity .35s ease;
 }
 .big-vinyl-wrap canvas.slide-out-left  { transform:translateX(-100%); opacity:0; }

@@ -16,6 +16,7 @@
   font-size:1.1rem; font-weight:700;
   display:flex; align-items:center; gap:10px;
   letter-spacing:.5px; user-select:none;
+  white-space:nowrap; flex-shrink:0;
 }
 .logo-disc {
   width:28px; height:28px; border-radius:50%;
@@ -25,11 +26,22 @@
 .logo-disc::after { content:''; width:7px; height:7px; border-radius:50%; background:var(--gold); }
 .logo span { color:var(--gold); }
 
-.nav-links ul { display:flex; gap:.2rem; align-items:center; }
+.nav-links {
+  flex:1; min-width:0;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.nav-links::-webkit-scrollbar { display:none; }
+.nav-links ul {
+  display:flex; gap:.2rem; align-items:center;
+  flex-wrap:nowrap;
+  justify-content:center;
+}
 .nav-links a {
   color:var(--text-muted); font-size:.8rem;
   padding:.4rem .85rem; border-radius:var(--radius);
   border:1px solid transparent;
+  white-space:nowrap;
   transition: color var(--tr), border-color var(--tr), background var(--tr);
 }
 .nav-links a:hover  { color:var(--gold); border-color:var(--border); background:var(--bg-2); }
@@ -75,5 +87,6 @@ h1 em { font-style:italic; color:var(--gold); font-weight:400; }
 
 .vinyl-stage { flex-shrink:0; display:flex; flex-direction:column; align-items:center; }
 .vinyl-wrap  { width:300px; height:300px; cursor:grab; touch-action:pan-y; }
+.vinyl-wrap canvas { width:100%; height:100%; display:block; }
 .vinyl-wrap:active { cursor:grabbing; }
 .vinyl-hint  { margin-top:1rem; font-size:.7rem; color:var(--text-dark); }
