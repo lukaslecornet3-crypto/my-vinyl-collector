@@ -36,26 +36,6 @@ export function setEcoAlbum(i) {
   document.getElementById('ecoTitle').textContent  = a.title;
   document.getElementById('ecoArtist').textContent = a.artist;
   updateStreaming(a);
-
-  // Tracklist
-  const frag = document.createDocumentFragment();
-  (a.tracks || ['Piste 1']).forEach((t, j) => {
-    const d = document.createElement('div');
-    d.className = 'track-item' + (j === 0 ? ' playing' : '');
-    // textContent évite l'injection HTML depuis MusicBrainz
-    const num  = document.createElement('span'); num.className  = 'track-num';  num.textContent  = j + 1;
-    const name = document.createElement('span'); name.className = 'track-name'; name.textContent = t;
-    const dur  = document.createElement('span'); dur.className  = 'track-dur';  dur.textContent  = (a.durations || [])[j] || '—';
-    d.append(num, name, dur);
-    d.onclick = () => {
-      document.querySelectorAll('.track-item').forEach(x => x.classList.remove('playing'));
-      d.classList.add('playing');
-    };
-    frag.appendChild(d);
-  });
-  const tl = document.getElementById('trackList');
-  tl.innerHTML = '';
-  tl.appendChild(frag);
 }
 
 export function initEcouter() {

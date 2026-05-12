@@ -19,10 +19,7 @@ const F = {
   year:      document.getElementById('editYear'),
   label:     document.getElementById('editLabel'),
   condition: document.getElementById('editCondition'),
-  low:       document.getElementById('editLow'),
   mid:       document.getElementById('editMid'),
-  high:      document.getElementById('editHigh'),
-  notes:     document.getElementById('editNotes'),
   coverUrl:  document.getElementById('editCoverUrl'),
 };
 
@@ -57,10 +54,7 @@ export function openEdit(albumIdx) {
   F.year.value      = a.year || '';
   F.label.value     = a.label || '';
   F.condition.value = a.condition || 'Excellent (VG+)';
-  F.low.value       = parsePrice(a.low);
   F.mid.value       = parsePrice(a.mid || a.value);
-  F.high.value      = parsePrice(a.high);
-  F.notes.value     = a.notes || '';
   F.coverUrl.value  = a.coverUrl || '';
 
   overlay.classList.add('open');
@@ -83,15 +77,10 @@ async function handleSubmit(e) {
   a.year      = F.year.value ? parseInt(F.year.value) : '';
   a.label     = F.label.value.trim();
   a.condition = F.condition.value;
-  a.notes     = F.notes.value.trim();
   a.coverUrl  = F.coverUrl.value.trim();
 
-  const low  = priceToString(F.low.value);
-  const mid  = priceToString(F.mid.value);
-  const high = priceToString(F.high.value);
-  if (low)  a.low  = low;
-  if (mid)  { a.mid = mid; a.value = mid; }
-  if (high) a.high = high;
+  const mid = priceToString(F.mid.value);
+  if (mid) { a.mid = mid; a.value = mid; }
 
   saveCollection();
   state.filteredAlbums = [...ALBUMS];

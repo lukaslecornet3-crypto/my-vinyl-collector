@@ -235,10 +235,6 @@
         Apple Music
       </a>
     </div>
-    <div class="track-section">
-      <div class="track-section-title">Pistes de l'album</div>
-      <div class="track-list" id="trackList"></div>
-    </div>
   </div>
 </div>
 
@@ -346,10 +342,12 @@
           <div class="meta-row"><dt class="meta-key">État</dt>   <dd class="meta-val" id="detailCond"></dd></div>
           <div class="meta-row"><dt class="meta-key">Valeur</dt> <dd class="meta-val gold" id="detailValue"></dd></div>
         </dl>
-        <div class="detail-notes-label">Notes</div>
-        <div class="detail-notes"  id="detailNotes"></div>
         <div class="detail-tracks-label">Pistes</div>
         <div class="detail-tracks" id="detailTracks"></div>
+        <div class="detail-actions">
+          <button class="btn-outline btn-sm" id="detailEditBtn">✏️ Modifier</button>
+          <button class="btn-delete"        id="detailDeleteBtn">🗑 Supprimer</button>
+        </div>
       </div>
     </div>
   </div>
@@ -441,20 +439,11 @@
             <option value="Passable (G)">Passable (G)</option>
           </select>
         </label>
-        <label>Prix bas (€)
-          <input type="text" id="editLow" class="modal-input" inputmode="decimal" placeholder="ex. 25">
-        </label>
-        <label>Prix moyen (€)
+        <label class="edit-col-span">Prix moyen (€)
           <input type="text" id="editMid" class="modal-input" inputmode="decimal" placeholder="ex. 45">
-        </label>
-        <label>Prix haut (€)
-          <input type="text" id="editHigh" class="modal-input" inputmode="decimal" placeholder="ex. 75">
         </label>
         <label class="edit-col-span">URL de la pochette
           <input type="url" id="editCoverUrl" class="modal-input" placeholder="https://...">
-        </label>
-        <label class="edit-col-span">Notes
-          <textarea id="editNotes" class="modal-input modal-textarea" placeholder="Impressions, provenance…"></textarea>
         </label>
       </div>
       <div class="modal-actions">
