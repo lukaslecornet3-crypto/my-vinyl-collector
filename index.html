@@ -94,10 +94,15 @@
         <p id="colCount">0 vinyle</p>
       </div>
       <div class="col-actions">
-        <button class="btn-outline" id="shareBtn">🔗 Partager</button>
-        <button class="btn-outline" id="importBtn">⬆ Importer</button>
-        <button class="btn-outline" id="exportBtn">⬇ Exporter</button>
-        <button class="btn-gold"    id="openAddModal">+ Ajouter</button>
+        <div class="actions-menu">
+          <button class="btn-outline" id="moreActionsBtn" aria-haspopup="true" aria-expanded="false" aria-label="Plus d'actions">⋯</button>
+          <div class="actions-dropdown hidden" id="moreActionsDropdown" role="menu">
+            <button class="dropdown-item" id="shareBtn"  role="menuitem">🔗 Partager</button>
+            <button class="dropdown-item" id="importBtn" role="menuitem">⬆ Importer</button>
+            <button class="dropdown-item" id="exportBtn" role="menuitem">⬇ Exporter</button>
+          </div>
+        </div>
+        <button class="btn-gold" id="openAddModal">+ Ajouter</button>
       </div>
     </div>
     <div class="col-toolbar">
@@ -267,12 +272,6 @@
         <div class="kpi-value" id="statTopCond">—</div>
         <div class="kpi-label">État le plus fréquent</div>
       </div>
-    </div>
-
-    <!-- Graphique par décennie -->
-    <div class="stats-section">
-      <div class="stats-section-title">Répartition par décennie</div>
-      <div class="stats-chart" id="statsChart"></div>
     </div>
 
     <!-- Répartition par état -->

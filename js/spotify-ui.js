@@ -17,7 +17,7 @@ import {
 } from './spotify.js';
 import { toast } from './toast.js';
 
-// ---- Indicateur navbar "Now playing" ----
+// ---- Indicateur "Now playing" en bas à gauche (fixed) ----
 function ensureNowPlayingEl() {
   let el = document.getElementById('nowPlaying');
   if (el) return el;
@@ -27,10 +27,18 @@ function ensureNowPlayingEl() {
   el.innerHTML = `
     <span class="np-pulse"></span>
     <span class="np-text">—</span>
+    <button class="np-close" id="npCloseBtn" title="Déconnecter Spotify" aria-label="Déconnecter Spotify">✕</button>
   `;
-  // Insère avant le theme toggle
-  const themeToggle = document.getElementById('themeToggle');
-  themeToggle?.parentNode.insertBefore(el, themeToggle);
+  document.body.appendChild(el);
+
+  // Bouton "×" → déconnexion Spotify
+  el.querySelector('#npCloseBtn').addEventListener('click', async (e) => {
+    e.stopPropagation();
+    const ok = await toast.confirm('Déconnecter Spotify ?');
+    if (!ok) return;
+    await disconnectSpotify();
+    toast.info('Spotify déconnecté');
+  });
   return el;
 }
 
@@ -90,81 +98,38 @@ function syncEcouterPage() {
   }
 }
 
-// ---- Bouton "Connecter Spotify" dans la page Écouter ----
+// ---- Hijack du bouton streaming Spotify : devient connect/disconnect Spotify Live ----
+//      Si pas connecté → click connecte. Si connecté → ouvre Spotify search (comportement original)
 function ensureSpotifyButton() {
-  let btn = document.getElementById('spotifyConnectBtn');
-  if (btn) return btn;
+  const btn = document.getElementById('spotifyBtn');
+  if (!btn) return null;
+  if (btn.dataset.liveBound) return btn;
+  btn.dataset.liveBound = '1';
 
-  // Injecte une mini-barre Spotify EN HAUT de la page Écouter
-  const target = document.querySelector('#page-ecouter .ecouter-content');
-  if (!target) return null;
-
-  const wrap = document.createElement('div');
-  wrap.id = 'spotifyConnectWrap';
-  wrap.className = 'spotify-bar hidden';
-  wrap.innerHTML = `
-    <div class="spotify-bar-status" id="spotifyBarStatus">—</div>
-    <button type="button" id="spotifyConnectBtn" class="spotify-btn">
-      <svg viewBox="0 0 24 24" fill="currentColor" class="spotify-icon">
-        <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
-      </svg>
-      <span id="spotifyBtnLabel">Connecter Spotify</span>
-    </button>
-  `;
-  // Insère TOUT EN HAUT du contenu de la page écouter
-  target.insertBefore(wrap, target.firstChild);
-
-  btn = document.getElementById('spotifyConnectBtn');
-  btn.addEventListener('click', async () => {
+  btn.addEventListener('click', (e) => {
+    // Si l'utilisateur est connecté à Spotify Live → laisse passer le clic (ouverture Spotify)
+    if (spotifyState.connected) return;
+    // Sinon → intercepte et lance la connexion
+    e.preventDefault();
     if (!authState.user) {
       toast.warn('Connecte-toi d\'abord pour utiliser Spotify Live');
       return;
     }
-    if (spotifyState.connected) {
-      const ok = await toast.confirm('Déconnecter Spotify ?');
-      if (!ok) return;
-      await disconnectSpotify();
-      toast.info('Spotify déconnecté');
-      refreshSpotifyButton();
-    } else {
-      connectSpotify();
-    }
+    connectSpotify();
   });
   return btn;
 }
 
 function refreshSpotifyButton() {
-  const wrap = document.getElementById('spotifyConnectWrap');
-  if (!wrap) return;
+  const btn = document.getElementById('spotifyBtn');
+  if (!btn) return;
 
-  const label  = document.getElementById('spotifyBtnLabel');
-  const status = document.getElementById('spotifyBarStatus');
-  const btn    = document.getElementById('spotifyConnectBtn');
-
-  wrap.classList.remove('hidden');
-
-  if (!authState.user) {
-    status.textContent = '🔒 Connecte-toi pour utiliser Spotify Live';
-    label.textContent  = 'Connecter Spotify';
-    btn.classList.remove('connected');
-    btn.disabled = true;
-    return;
-  }
-  btn.disabled = false;
-
-  if (spotifyState.connected) {
-    if (spotifyState.playing && spotifyState.track) {
-      status.innerHTML = `🎵 Sur Spotify : <strong>${spotifyState.track.name}</strong> — ${spotifyState.track.artists.join(', ')}`;
-    } else {
-      status.textContent = '✓ Spotify connecté · rien en lecture pour le moment';
-    }
-    label.textContent = 'Déconnecter';
-    btn.classList.add('connected');
-  } else {
-    status.textContent = 'Synchronise le vinyle en lecture avec Spotify';
-    label.textContent = 'Connecter Spotify';
-    btn.classList.remove('connected');
-  }
+  // Visuel : badge "live" si connecté
+  btn.classList.toggle('live-connected', spotifyState.connected);
+  // Tooltip dynamique
+  if (!authState.user)             btn.title = 'Spotify (connecte-toi pour activer Live)';
+  else if (spotifyState.connected) btn.title = 'Ouvrir dans Spotify · ⚡ Live activé';
+  else                             btn.title = 'Connecter Spotify Live';
 }
 
 // ---- Init ----

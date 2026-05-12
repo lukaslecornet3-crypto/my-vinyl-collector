@@ -30,34 +30,6 @@ export function buildStats() {
   const topCond = Object.entries(condCount).sort((a, b) => b[1] - a[1])[0];
   document.getElementById('statTopCond').textContent = topCond ? topCond[0] : '—';
 
-  // ---- Graphique par décennie ----
-  const decades = {};
-  ALBUMS.forEach(a => {
-    if (a.year) {
-      const d = Math.floor(a.year/10) * 10;
-      decades[d] = (decades[d] || 0) + 1;
-    }
-  });
-  const sortedDecades = Object.entries(decades).sort((a, b) => a[0] - b[0]);
-  const maxD = Math.max(...Object.values(decades), 1);
-
-  const chart = document.getElementById('statsChart');
-  chart.innerHTML = '';
-  sortedDecades.forEach(([dec, count]) => {
-    const bar = document.createElement('div'); bar.className = 'stat-bar-wrap';
-
-    const track = document.createElement('div'); track.className = 'stat-bar-track';
-    const fill  = document.createElement('div'); fill.className  = 'stat-bar-fill';
-    fill.style.height = `${Math.round(count/maxD*100)}%`;
-    track.appendChild(fill);
-
-    const label = document.createElement('div'); label.className = 'stat-bar-label'; label.textContent = `${dec}s`;
-    const cnt   = document.createElement('div'); cnt.className   = 'stat-bar-count'; cnt.textContent   = count;
-
-    bar.append(track, label, cnt);
-    chart.appendChild(bar);
-  });
-
   // ---- Liste par état ----
   const condList = document.getElementById('statCondList');
   condList.innerHTML = '';
