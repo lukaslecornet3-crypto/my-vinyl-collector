@@ -21,19 +21,6 @@
   --tr:         0.2s ease;
 }
 
-[data-theme="light"] {
-  --bg:         #f5f3ef;
-  --bg-2:       #ffffff;
-  --bg-3:       #ede9e2;
-  --border:     #ddd8cf;
-  --border-2:   #ccc7bc;
-  --text:       #1a1a1a;
-  --text-muted: #666666;
-  --text-dim:   #888888;
-  --text-dark:  #999999;
-  --shadow:     rgba(0,0,0,0.15);
-}
-
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 a   { text-decoration:none; color:inherit; }
 ul  { list-style:none; }

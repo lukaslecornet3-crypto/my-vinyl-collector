@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" data-theme="dark">
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
   <base href="/">
@@ -24,7 +24,6 @@
   <!-- CSS critique inline : évite le flash blanc avant le chargement des feuilles externes -->
   <style>
     :root{--gold:#c9a84c;--bg:#080808;--bg-2:#111;--bg-3:#1a1a1a;--border:#1e1e1e;--border-2:#2a2a2a;--text:#fff;--text-muted:#888;--text-dim:#555;--text-dark:#444;--navbar-h:64px;--radius:8px;--tr:.2s ease}
-    [data-theme="light"]{--bg:#f5f3ef;--bg-2:#fff;--bg-3:#ede9e2;--border:#ddd8cf;--border-2:#ccc7bc;--text:#1a1a1a;--text-muted:#666;--text-dim:#888;--text-dark:#999}
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
     a{text-decoration:none;color:inherit}ul{list-style:none}
     html{overflow-x:clip}
@@ -63,15 +62,6 @@
   <link rel="stylesheet" href="css/spotify.css">
   <link rel="stylesheet" href="css/responsive.css">
 
-  <!-- FIX FLASH THÈME : applique le thème AVANT le rendu HTML -->
-  <script>
-    (function(){
-      try{
-        var t=localStorage.getItem('theme');
-        if(t) document.documentElement.setAttribute('data-theme',t);
-      }catch(e){}
-    })();
-  </script>
 </head>
 <body>
 
@@ -89,9 +79,6 @@
       <li><a href="#" class="nav-link" data-page="stats">Statistiques</a></li>
     </ul>
   </div>
-  <button class="theme-toggle" id="themeToggle" aria-label="Changer le thème">
-    <span class="theme-icon">🌙</span>
-  </button>
   <button class="auth-btn" id="authBtn" title="Se connecter">Se connecter</button>
 </nav>
 

@@ -3,7 +3,7 @@
 // Met en cache l'app + les pochettes pour fonctionner offline
 // ============================================================
 
-const CACHE_NAME  = 'vinyl-collector-v16';
+const CACHE_NAME  = 'vinyl-collector-v17';
 const COVER_CACHE = 'vinyl-covers-v1';
 
 // Fichiers de l'app à mettre en cache au premier chargement
@@ -34,7 +34,6 @@ const STATIC_FILES = [
   '/js/data.js',
   '/js/storage.js',
   '/js/state.js',
-  '/js/theme.js',
   '/js/canvas.js',
   '/js/loop.js',
   '/js/swipe.js',

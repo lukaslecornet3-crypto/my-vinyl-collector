@@ -105,8 +105,6 @@
   .nav-links ul { gap: .15rem; justify-content: flex-start; padding: 0 .25rem; }
   .nav-links a { font-size: .7rem; padding: .3rem .5rem; }
 
-  .theme-toggle { width: 30px; height: 30px; flex-shrink: 0; font-size: .9rem; }
-
   /* Auth button : icône seule sur mobile (gagne ~80px d'espace) */
   .auth-btn {
     width: 32px; height: 32px;

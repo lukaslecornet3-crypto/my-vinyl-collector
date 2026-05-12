@@ -4,7 +4,6 @@
 // ============================================================
 
 import { ALBUMS } from './storage.js';
-import { initTheme } from './theme.js';
 import { preloadCover } from './canvas.js';
 import { CV, initCV, startLoop } from './loop.js';
 import { initSearch } from './search.js';
@@ -39,9 +38,6 @@ initCV('val',  'valVinyl');
 initCV('eco',  'ecoVinyl');
 initCV('prev', 'previewVinyl');
 initCV('det',  'detailVinyl');
-
-// ---- Thème ----
-initTheme();
 
 // ---- Drag du vinyle hero (souris + tactile) ----
 (function initHeroDrag() {
