@@ -20,3 +20,6 @@ desktop.ini
 .vscode/
 .idea/
 *.swp
+
+# Outils IA / Local
+.claude/

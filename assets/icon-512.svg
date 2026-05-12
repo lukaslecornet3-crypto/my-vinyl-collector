@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Fond noir avec marge pour le "safe zone" maskable -->
+  <rect width="512" height="512" fill="#080808"/>
+
+  <!-- Vinyle -->
+  <g transform="translate(256 256)">
+    <circle r="200" fill="#111"/>
+    <circle r="190" fill="none" stroke="#2a2a2a" stroke-width="2"/>
+    <!-- Sillons -->
+    <circle r="170" fill="none" stroke="#222" stroke-width="1"/>
+    <circle r="155" fill="none" stroke="#2a2a2a" stroke-width="1"/>
+    <circle r="140" fill="none" stroke="#222" stroke-width="1"/>
+    <circle r="125" fill="none" stroke="#2a2a2a" stroke-width="1"/>
+    <circle r="110" fill="none" stroke="#222" stroke-width="1"/>
+    <circle r="95"  fill="none" stroke="#2a2a2a" stroke-width="1"/>
+
+    <!-- Étiquette centrale (or) -->
+    <circle r="75" fill="#c9a84c"/>
+    <circle r="75" fill="none" stroke="#e0bb5a" stroke-width="2"/>
+
+    <!-- Reflet doux -->
+    <path d="M -60 -40 A 75 75 0 0 1 50 -50" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="3"/>
+
+    <!-- Trou central -->
+    <circle r="8" fill="#080808"/>
+  </g>
+</svg>

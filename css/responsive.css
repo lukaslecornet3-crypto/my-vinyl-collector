@@ -1,34 +1,153 @@
 /* ============================================================
-   responsive.css — Media queries mobiles (< 700px)
+   responsive.css — Adaptations pour tous les écrans
+   Mobile (≤700) · Tablette (701-1024) · Grand écran (≥1400)
    ============================================================ */
 
-@media (max-width:700px) {
-  .hero { flex-direction:column; justify-content:center; padding:2rem 1.5rem; text-align:center; }
-  .eyebrow { justify-content:center; }
-  .cta-row { justify-content:center; }
-  .vinyl-stage { display:none; }
-  .viewer-stage { flex-direction:column; gap:1.5rem; }
-  .nav-arrow { display:none; }
-  .big-vinyl-wrap { width:220px; height:220px; }
-  .valeur-viewer { flex-direction:column; gap:1.5rem; }
-  .val-nav-row { justify-content:center; }
-  .page-header { padding:1.5rem 1rem 1rem; }
-  .page-header h2 { font-size:1.4rem; }
-  .page-header-row { flex-direction:column; align-items:flex-start; }
+/* ============================================================
+   GRAND ÉCRAN (≥ 1400px) — limite la largeur pour la lisibilité
+   ============================================================ */
+@media (min-width: 1400px) {
+  .hero,
+  .page-header,
   .vinyl-viewer,
   .valeur-content,
   .ecouter-content,
-  .stats-content { padding:1.5rem 1rem; }
-  .navbar { padding:0 1rem; }
-  .nav-links a { font-size:.72rem; padding:.3rem .55rem; }
-  .streaming-buttons { flex-direction:column; align-items:stretch; }
-  .stream-btn { justify-content:center; }
-  .grid-container { grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); padding:1rem; gap:1rem; }
-  .confirm-top { flex-direction:column; align-items:center; }
-  .detail-content { flex-direction:column; }
-  .detail-vinyl-wrap { width:160px; height:160px; align-self:center; }
-  .col-toolbar { flex-direction:column; align-items:stretch; }
-  .filter-group { flex-wrap:wrap; }
-  .stats-kpis { grid-template-columns:repeat(2,1fr); }
-  .stat-cond-name { width:100px; }
+  .stats-content,
+  .grid-container {
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .navbar { padding: 0 3rem; }
+}
+
+/* ============================================================
+   TABLETTE (701px - 1024px)
+   ============================================================ */
+@media (min-width: 701px) and (max-width: 1024px) {
+  .hero {
+    padding: 2.5rem 2rem;
+    gap: 2rem;
+  }
+  .vinyl-wrap { width: 240px; height: 240px; }
+
+  .viewer-stage { gap: 1.5rem; }
+  .big-vinyl-wrap { width: 240px; height: 240px; }
+  .album-info { max-width: 220px; }
+
+  .valeur-viewer { gap: 2rem; }
+  .price-card { min-width: 240px; }
+
+  .grid-container {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+    padding: 1.5rem 2rem;
+  }
+
+  .stats-kpis { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ============================================================
+   MOBILE (≤ 700px)
+   ============================================================ */
+@media (max-width: 700px) {
+  .hero {
+    flex-direction: column;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    min-height: auto;
+  }
+  .eyebrow { justify-content: center; }
+  .cta-row { justify-content: center; }
+  h1 { font-size: clamp(1.6rem, 7vw, 2.4rem); }
+  .hero-desc { font-size: .85rem; }
+
+  /* Le vinyle hero est visible sur mobile maintenant (en plus petit) */
+  .vinyl-stage { display: flex; }
+  .vinyl-wrap  { width: 220px; height: 220px; }
+  .vinyl-hint  { font-size: .65rem; }
+
+  .viewer-stage { flex-direction: column; gap: 1.25rem; }
+  .nav-arrow   { display: none; }
+  .big-vinyl-wrap { width: 220px; height: 220px; }
+  .album-info  { max-width: 100%; text-align: center; }
+  .album-meta  { max-width: 280px; margin: 0 auto 1rem; }
+  .album-actions { justify-content: center; }
+
+  .valeur-viewer { flex-direction: column; gap: 1.5rem; }
+  .val-nav-row   { justify-content: center; }
+  .val-vinyl-wrap { width: 170px; height: 170px; }
+  .price-card    { width: 100%; }
+
+  .page-header   { padding: 1.25rem 1rem 1rem; }
+  .page-header h2 { font-size: 1.35rem; }
+  .page-header-row { flex-direction: column; align-items: flex-start; gap: .75rem; }
+  .col-actions { width: 100%; }
+  .col-actions button { flex: 1; }
+
+  .vinyl-viewer,
+  .valeur-content,
+  .ecouter-content,
+  .stats-content { padding: 1.25rem 1rem; }
+
+  .navbar { padding: 0 .75rem; height: 56px; gap: .5rem; }
+  .logo { font-size: .9rem; gap: 6px; }
+  .logo-disc { width: 22px; height: 22px; border-width: 2px; }
+  .logo-disc::after { width: 5px; height: 5px; }
+  .nav-links a { font-size: .68rem; padding: .25rem .5rem; }
+  .nav-links ul { gap: 0; }
+
+  .theme-toggle { width: 32px; height: 32px; }
+  .auth-btn     { max-width: 100px; padding: .25rem .5rem; font-size: .65rem; height: 32px; }
+
+  .streaming-buttons { flex-direction: column; align-items: stretch; width: 100%; max-width: 320px; }
+  .stream-btn { justify-content: center; }
+  .player-vinyl-wrap { width: 180px; height: 180px; }
+  .player-title  { font-size: 1.2rem; }
+
+  .grid-container {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    padding: 1rem;
+    gap: .85rem;
+  }
+
+  .confirm-top { flex-direction: column; align-items: center; text-align: center; }
+  .detail-content { flex-direction: column; }
+  .detail-vinyl-wrap { width: 160px; height: 160px; align-self: center; }
+  .col-toolbar { flex-direction: column; align-items: stretch; }
+  .filter-group { flex-wrap: wrap; }
+  .filter-select { flex: 1; min-width: 0; }
+
+  .stats-kpis { grid-template-columns: repeat(2, 1fr); }
+  .stats-chart { height: 110px; gap: .35rem; }
+  .stat-cond-name { width: auto; max-width: 50%; }
+
+  .modal { padding: 1.25rem; width: 95%; max-height: 92vh; border-radius: 12px; }
+  .modal-header h3 { font-size: 1rem; }
+  .modal-header { margin-bottom: 1rem; }
+}
+
+/* ============================================================
+   TRÈS PETIT MOBILE (≤ 380px)
+   ============================================================ */
+@media (max-width: 380px) {
+  .vinyl-wrap, .big-vinyl-wrap { width: 200px; height: 200px; }
+  .navbar { padding: 0 .5rem; }
+  .nav-links a { font-size: .62rem; padding: .2rem .4rem; }
+  .auth-btn { max-width: 80px; font-size: .6rem; }
+  .logo span { display: none; }
+}
+
+/* ============================================================
+   ORIENTATION PAYSAGE MOBILE
+   ============================================================ */
+@media (max-width: 900px) and (orientation: landscape) {
+  .hero {
+    flex-direction: row;
+    min-height: auto;
+    padding: 1.5rem 2rem;
+  }
+  .vinyl-wrap { width: 180px; height: 180px; }
+  h1 { font-size: 1.8rem; }
 }

@@ -16,25 +16,25 @@ export async function setValAlbum(i) {
   preloadCover(a.coverUrl);
   CV.val.album = a;
 
+  const card = document.querySelector('.price-card');
+
   document.getElementById('valName').textContent   = `${a.title} — ${a.artist}`;
   document.getElementById('valIdx').textContent    = state.valIdx + 1;
   document.getElementById('valTotal').textContent  = ALBUMS.length;
-  document.getElementById('valSource').textContent = 'Chargement…';
-  document.getElementById('valPrice').textContent  = '…';
-  document.getElementById('barLow').style.width    = '0%';
-  document.getElementById('barMid').style.width    = '0%';
-  document.getElementById('barHigh').style.width   = '0%';
 
   // Affichage immédiat des valeurs sauvegardées (s'il y en a)
   if (a.low && a.low !== '—') {
     displayValeur(a.low, a.mid || a.value, a.high, 'collection');
+  } else {
+    // Sinon, on affiche le skeleton pendant le chargement
+    card?.classList.add('loading');
   }
 
-  // Puis tentative Discogs
+  // Tentative Discogs (toujours rafraîchir en arrière-plan)
   const v = await fetchDiscogsValue(a);
+  card?.classList.remove('loading');
   displayValeur(v.low, v.mid, v.high, v.source);
 
-  // Mémorise dans l'album
   a.low = v.low; a.mid = v.mid; a.high = v.high;
   saveCollection();
 }

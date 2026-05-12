@@ -11,6 +11,7 @@ import { applyFilters } from './search.js';
 import { navigateTo } from './navigation.js';
 import { searchReleaseGroups, fetchReleaseGroupDetails, formatDuration } from './api/musicbrainz.js';
 import { fetchDiscogsValue } from './api/discogs.js';
+import { toast } from './toast.js';
 
 const modalOverlay = document.getElementById('modalOverlay');
 
@@ -151,6 +152,7 @@ async function confirmAdd() {
   applyFilters();
   closeModal();
   navigateTo('collection');
+  toast.success(`"${title}" ajouté à ta collection`);
 }
 
 export function initModalAdd() {

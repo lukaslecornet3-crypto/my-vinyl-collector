@@ -6,6 +6,7 @@ import { ALBUMS, saveCollection } from './storage.js';
 import { state } from './state.js';
 import { COLORS } from './data.js';
 import { applyFilters } from './search.js';
+import { toast } from './toast.js';
 
 function csvEscape(v) {
   return `"${String(v ?? '').replace(/"/g, '""')}"`;
@@ -65,7 +66,7 @@ export function initCSV() {
     const file = e.target.files[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = ev => {
+    reader.onload = async ev => {
       try {
         const rows = parseCSV(ev.target.result);
         const imported = rows.slice(1).map(cols => {
@@ -89,16 +90,17 @@ export function initCSV() {
           };
         }).filter(a => a.title.trim());
 
-        if (!imported.length) { alert('Aucun album trouvé.'); return; }
-        if (!confirm(`Importer ${imported.length} album(s) ?`)) return;
+        if (!imported.length) { toast.warn('Aucun album trouvé dans le CSV.'); return; }
+        const ok = await toast.confirm(`Importer ${imported.length} album(s) ?`);
+        if (!ok) return;
 
         ALBUMS.push(...imported);
         saveCollection();
         state.filteredAlbums = [...ALBUMS];
         applyFilters();
-        alert(`✓ ${imported.length} album(s) importé(s) !`);
+        toast.success(`${imported.length} album(s) importé(s) !`);
       } catch (err) {
-        alert('Erreur CSV.');
+        toast.error('Erreur de lecture du CSV');
         console.error(err);
       }
       e.target.value = '';

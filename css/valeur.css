@@ -33,3 +33,39 @@
 }
 .nav-arrow2:hover { border-color:var(--gold); color:var(--gold); }
 .val-counter { font-size:.8rem; color:var(--text-dim); }
+
+/* ============================================================
+   SKELETON LOADING — pendant que Discogs répond
+   ============================================================ */
+.price-card.loading .price-big,
+.price-card.loading .bar-val {
+  color: transparent;
+  background: linear-gradient(90deg, var(--bg-3) 0%, var(--border-2) 50%, var(--bg-3) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+  border-radius: 4px;
+  display: inline-block;
+  min-width: 60px;
+}
+.price-card.loading .price-big   { min-width: 140px; height: 2.5rem; }
+.price-card.loading .price-label,
+.price-card.loading .price-source {
+  background: linear-gradient(90deg, var(--bg-3) 0%, var(--border-2) 50%, var(--bg-3) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+  color: transparent;
+  border-radius: 3px;
+}
+.price-card.loading .bar-fill {
+  background: linear-gradient(90deg, var(--bg-3) 0%, var(--border-2) 50%, var(--bg-3) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+  width: 40% !important;
+}
+.price-card.loading .bar-fill.mid  { width: 65% !important; }
+.price-card.loading .bar-fill.high { width: 85% !important; }
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}

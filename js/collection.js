@@ -10,6 +10,7 @@ import { addSwipe } from './swipe.js';
 import { applyFilters, updateColCount } from './search.js';
 import { updateStreaming } from './ecouter.js';
 import { openDetail } from './modal-detail.js';
+import { toast } from './toast.js';
 
 let gridObserver = null;
 
@@ -142,14 +143,17 @@ export function initCollection() {
     () => setColAlbum(state.colIdx - 1, -1)
   );
 
-  document.getElementById('deleteBtn').onclick = () => {
+  document.getElementById('deleteBtn').onclick = async () => {
     const album = state.filteredAlbums[state.colIdx];
-    if (!album || !confirm(`Supprimer "${album.title}" ?`)) return;
+    if (!album) return;
+    const ok = await toast.confirm(`Supprimer "${album.title}" ?`);
+    if (!ok) return;
     const idx = ALBUMS.indexOf(album);
     if (idx >= 0) ALBUMS.splice(idx, 1);
     saveCollection();
     state.filteredAlbums = [...ALBUMS];
     applyFilters();
+    toast.success(`"${album.title}" supprimé`);
   };
 
   state.filteredAlbums = [...ALBUMS];

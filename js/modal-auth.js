@@ -8,6 +8,7 @@ import { ALBUMS, replaceCollection, saveCollection } from './storage.js';
 import { authState, checkAuth, login, register, logout } from './auth.js';
 import { loadCloudCollection, saveCloudCollection, flushCloudSave } from './cloud-sync.js';
 import { applyFilters } from './search.js';
+import { toast } from './toast.js';
 
 const overlay   = document.getElementById('authOverlay');
 const form      = document.getElementById('authForm');
@@ -72,20 +73,19 @@ async function handleSubmit(e) {
   try {
     if (mode === 'register') {
       await register(email, password);
-      // Première inscription : si on a déjà une collection locale, on l'envoie au cloud
       if (ALBUMS.length) await saveCloudCollection([...ALBUMS]);
+      toast.success('Compte créé !');
     } else {
       await login(email, password);
-      // Connexion : on charge la collection cloud (et on écrase la locale)
       const cloud = await loadCloudCollection();
       if (cloud && cloud.length) {
         replaceCollection(cloud);
         state.filteredAlbums = [...ALBUMS];
         applyFilters();
       } else if (ALBUMS.length) {
-        // Cloud vide → on pousse la collection locale
         await saveCloudCollection([...ALBUMS]);
       }
+      toast.success(`Bienvenue ${authState.user}`);
     }
     refreshAuthUI();
     closeAuth();
@@ -98,11 +98,13 @@ async function handleSubmit(e) {
 }
 
 async function handleLogout() {
-  if (!confirm('Se déconnecter ? Ta collection locale restera mais ne sera plus synchronisée.')) return;
+  const ok = await toast.confirm('Se déconnecter ? Ta collection locale restera mais ne sera plus synchronisée.');
+  if (!ok) return;
   // On flush un dernier save avant de partir
   await flushCloudSave(ALBUMS);
   await logout();
   refreshAuthUI();
+  toast.info('Déconnecté');
 }
 
 export async function initAuth() {
