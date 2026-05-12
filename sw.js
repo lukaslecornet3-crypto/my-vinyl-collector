@@ -3,7 +3,7 @@
 // Met en cache l'app + les pochettes pour fonctionner offline
 // ============================================================
 
-const CACHE_NAME  = 'vinyl-collector-v6';
+const CACHE_NAME  = 'vinyl-collector-v7';
 const COVER_CACHE = 'vinyl-covers-v1';
 
 // Fichiers de l'app à mettre en cache au premier chargement
@@ -25,6 +25,7 @@ const STATIC_FILES = [
   '/css/modals.css',
   '/css/auth.css',
   '/css/toast.css',
+  '/css/spotify.css',
   '/css/responsive.css',
 
   // JS
@@ -54,6 +55,8 @@ const STATIC_FILES = [
   '/js/toast.js',
   '/js/share.js',
   '/js/share-view.js',
+  '/js/spotify.js',
+  '/js/spotify-ui.js',
   '/js/api/discogs.js',
   '/js/api/musicbrainz.js',
 ];

@@ -1,0 +1,132 @@
+/* ============================================================
+   spotify.css — Indicateur navbar + bouton Connect dans auth modal
+   ============================================================ */
+
+/* ---- Indicateur "Now playing" dans la navbar ---- */
+.now-playing {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 .85rem;
+  height: 32px;
+  border-radius: 16px;
+  background: rgba(29, 185, 84, 0.12);
+  border: 1px solid rgba(29, 185, 84, 0.35);
+  color: #1DB954;
+  font-size: .72rem;
+  font-weight: 500;
+  max-width: 240px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.now-playing.hidden { display: none; }
+
+.np-pulse {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #1DB954;
+  box-shadow: 0 0 0 0 rgba(29, 185, 84, 0.6);
+  animation: np-pulse 1.8s ease-in-out infinite;
+  flex-shrink: 0;
+}
+.np-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@keyframes np-pulse {
+  0%   { box-shadow: 0 0 0 0   rgba(29, 185, 84, 0.6); }
+  70%  { box-shadow: 0 0 0 8px rgba(29, 185, 84, 0); }
+  100% { box-shadow: 0 0 0 0   rgba(29, 185, 84, 0); }
+}
+
+@media (max-width: 700px) {
+  .now-playing {
+    max-width: 130px;
+    padding: 0 .55rem;
+    height: 28px;
+    font-size: .65rem;
+    gap: 5px;
+  }
+}
+
+/* ---- Bouton "Connecter Spotify" dans la modal d'auth ---- */
+.spotify-connect-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+  margin-top: .25rem;
+}
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  color: var(--text-dim);
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.spotify-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: .7rem 1.2rem;
+  background: #1DB954;
+  color: #fff;
+  font-size: .82rem;
+  font-weight: 600;
+  font-family: inherit;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: filter var(--tr), transform var(--tr);
+}
+.spotify-btn:hover  { filter: brightness(1.1); transform: translateY(-1px); }
+.spotify-btn:active { transform: translateY(0); }
+.spotify-btn.connected {
+  background: var(--bg-3);
+  color: #1DB954;
+  border: 1px solid #1DB954;
+}
+.spotify-btn.connected:hover {
+  background: rgba(29, 185, 84, 0.15);
+}
+.spotify-icon { width: 18px; height: 18px; flex-shrink: 0; }
+
+/* ---- Barre Spotify dans la page Écouter ---- */
+.spotify-bar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 1.25rem;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 560px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.spotify-bar.hidden { display: none; }
+.spotify-bar-status {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  flex: 1;
+  min-width: 0;
+}
+.spotify-bar-status strong { color: var(--text); }
+.spotify-bar .spotify-btn { padding: 0.5rem 1rem; font-size: 0.78rem; }
+.spotify-bar .spotify-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+@media (max-width: 600px) {
+  .spotify-bar { flex-direction: column; align-items: stretch; }
+  .spotify-bar .spotify-btn { justify-content: center; }
+}

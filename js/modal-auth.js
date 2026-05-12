@@ -9,6 +9,7 @@ import { authState, checkAuth, login, register, logout } from './auth.js';
 import { loadCloudCollection, saveCloudCollection, flushCloudSave } from './cloud-sync.js';
 import { applyFilters } from './search.js';
 import { toast } from './toast.js';
+import { onAuthChange as spotifyOnAuthChange } from './spotify-ui.js';
 
 const overlay   = document.getElementById('authOverlay');
 const form      = document.getElementById('authForm');
@@ -90,6 +91,7 @@ async function handleSubmit(e) {
     refreshAuthUI();
     closeAuth();
     form.reset();
+    spotifyOnAuthChange();
   } catch (err) {
     errorEl.textContent = err.message || 'Erreur';
   } finally {
@@ -104,6 +106,7 @@ async function handleLogout() {
   await flushCloudSave(ALBUMS);
   await logout();
   refreshAuthUI();
+  spotifyOnAuthChange();
   toast.info('Déconnecté');
 }
 

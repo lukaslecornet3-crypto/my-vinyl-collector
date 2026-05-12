@@ -19,6 +19,7 @@ import { initModalShare } from './modal-share.js';
 import { initNavigation } from './navigation.js';
 import { initAuth } from './modal-auth.js';
 import { maybeInitSharedView, sharedView } from './share-view.js';
+import { initSpotifyUI } from './spotify-ui.js';
 
 // ---- Service worker ----
 if ('serviceWorker' in navigator) {
@@ -90,7 +91,11 @@ await maybeInitSharedView();
 
 // ---- Auth : vérifie la session + charge la collection cloud si connecté
 //      (skip si on est en mode lecture publique)
-if (!sharedView.active) initAuth();
+if (!sharedView.active) {
+  await initAuth();
+  // Spotify UI (polling demarre si l'utilisateur est connecté à l'app)
+  initSpotifyUI();
+}
 
 // ---- Hero vinyle = premier album ----
 if (ALBUMS.length) {
