@@ -10,6 +10,7 @@ import { addSwipe } from './swipe.js';
 import { applyFilters, updateColCount } from './search.js';
 import { updateStreaming } from './ecouter.js';
 import { openDetail } from './modal-detail.js';
+import { openEdit } from './modal-edit.js';
 import { toast } from './toast.js';
 
 let gridObserver = null;
@@ -142,6 +143,12 @@ export function initCollection() {
     () => setColAlbum(state.colIdx + 1,  1),
     () => setColAlbum(state.colIdx - 1, -1)
   );
+
+  document.getElementById('editBtn').onclick = () => {
+    const album = state.filteredAlbums[state.colIdx];
+    if (!album) return;
+    openEdit(ALBUMS.indexOf(album));
+  };
 
   document.getElementById('deleteBtn').onclick = async () => {
     const album = state.filteredAlbums[state.colIdx];

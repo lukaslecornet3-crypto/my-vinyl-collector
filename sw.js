@@ -3,7 +3,7 @@
 // Met en cache l'app + les pochettes pour fonctionner offline
 // ============================================================
 
-const CACHE_NAME  = 'vinyl-collector-v4';
+const CACHE_NAME  = 'vinyl-collector-v5';
 const COVER_CACHE = 'vinyl-covers-v1';
 
 // Fichiers de l'app à mettre en cache au premier chargement
@@ -46,10 +46,14 @@ const STATIC_FILES = [
   '/js/modal-add.js',
   '/js/modal-detail.js',
   '/js/modal-auth.js',
+  '/js/modal-edit.js',
+  '/js/modal-share.js',
   '/js/navigation.js',
   '/js/auth.js',
   '/js/cloud-sync.js',
   '/js/toast.js',
+  '/js/share.js',
+  '/js/share-view.js',
   '/js/api/discogs.js',
   '/js/api/musicbrainz.js',
 ];

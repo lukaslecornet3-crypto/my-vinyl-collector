@@ -39,7 +39,10 @@ export function saveCollection() {
 }
 
 // Remplace le contenu de ALBUMS sans casser les références
-export function replaceCollection(newAlbums) {
+// { skipPersist: true } → ne touche pas au localStorage (utile en mode partage public)
+export function replaceCollection(newAlbums, opts = {}) {
   ALBUMS.splice(0, ALBUMS.length, ...newAlbums);
-  saveStorage('myVinylCollection', ALBUMS);
+  if (!opts.skipPersist) {
+    saveStorage('myVinylCollection', ALBUMS);
+  }
 }

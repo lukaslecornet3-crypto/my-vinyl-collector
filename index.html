@@ -92,6 +92,7 @@
         <p id="colCount">0 vinyle</p>
       </div>
       <div class="col-actions">
+        <button class="btn-outline" id="shareBtn">🔗 Partager</button>
         <button class="btn-outline" id="importBtn">⬆ Importer</button>
         <button class="btn-outline" id="exportBtn">⬇ Exporter</button>
         <button class="btn-gold"    id="openAddModal">+ Ajouter</button>
@@ -152,6 +153,7 @@
           </dl>
           <div class="album-actions">
             <button class="btn-outline btn-sm" id="detailBtn">🔍 Détails</button>
+            <button class="btn-outline btn-sm" id="editBtn">✏️ Modifier</button>
             <button class="btn-delete"         id="deleteBtn">🗑 Supprimer</button>
           </div>
         </div>
@@ -373,6 +375,90 @@
       <div class="auth-toggle">
         <span id="authToggleText">Pas encore de compte ?</span>
         <button type="button" class="link-btn" id="authToggleBtn">Créer un compte</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ========== MODAL PARTAGE ========== -->
+<div class="modal-overlay" id="shareOverlay" role="dialog" aria-modal="true">
+  <div class="modal modal-share">
+    <div class="modal-header">
+      <h3>Partager ma collection</h3>
+      <button class="modal-close" id="closeShare">✕</button>
+    </div>
+    <div class="share-content">
+      <p class="share-status" id="shareStatus">Chargement…</p>
+
+      <div class="share-url-box hidden" id="shareUrlBox">
+        <input type="text" id="shareUrl" class="share-url-input" readonly>
+        <button class="btn-gold btn-sm" id="shareCopyBtn">📋 Copier</button>
+      </div>
+
+      <div class="share-actions">
+        <button class="btn-gold hidden" id="shareEnableBtn">Activer le partage</button>
+        <button class="btn-outline hidden" id="shareRegenBtn">🔄 Régénérer le lien</button>
+        <button class="btn-delete hidden" id="shareDisableBtn">Désactiver</button>
+      </div>
+
+      <p class="share-info">
+        💡 Toute personne ayant ce lien pourra voir ta collection en lecture seule
+        (mais pas la modifier ni voir ton email).
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ========== MODAL ÉDITER UN VINYLE ========== -->
+<div class="modal-overlay" id="editOverlay" role="dialog" aria-modal="true">
+  <div class="modal modal-edit">
+    <div class="modal-header">
+      <h3>Modifier le vinyle</h3>
+      <button class="modal-close" id="closeEdit">✕</button>
+    </div>
+    <form id="editForm" class="edit-form">
+      <div class="edit-grid">
+        <label>Titre
+          <input type="text" id="editTitle" class="modal-input" required>
+        </label>
+        <label>Artiste
+          <input type="text" id="editArtist" class="modal-input" required>
+        </label>
+        <label>Année
+          <input type="number" id="editYear" class="modal-input" min="1900" max="2099">
+        </label>
+        <label>Label
+          <input type="text" id="editLabel" class="modal-input">
+        </label>
+        <label class="edit-col-span">État du disque
+          <select id="editCondition" class="modal-select">
+            <option value="Mint (M)">Mint (M)</option>
+            <option value="Near Mint (NM)">Near Mint (NM)</option>
+            <option value="Excellent (VG+)">Excellent (VG+)</option>
+            <option value="Très bon (VG)">Très bon (VG)</option>
+            <option value="Bon (G+)">Bon (G+)</option>
+            <option value="Passable (G)">Passable (G)</option>
+          </select>
+        </label>
+        <label>Prix bas (€)
+          <input type="text" id="editLow" class="modal-input" inputmode="decimal" placeholder="ex. 25">
+        </label>
+        <label>Prix moyen (€)
+          <input type="text" id="editMid" class="modal-input" inputmode="decimal" placeholder="ex. 45">
+        </label>
+        <label>Prix haut (€)
+          <input type="text" id="editHigh" class="modal-input" inputmode="decimal" placeholder="ex. 75">
+        </label>
+        <label class="edit-col-span">URL de la pochette
+          <input type="url" id="editCoverUrl" class="modal-input" placeholder="https://...">
+        </label>
+        <label class="edit-col-span">Notes
+          <textarea id="editNotes" class="modal-input modal-textarea" placeholder="Impressions, provenance…"></textarea>
+        </label>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-outline" id="editCancel">Annuler</button>
+        <button type="submit" class="btn-gold">Enregistrer</button>
       </div>
     </form>
   </div>

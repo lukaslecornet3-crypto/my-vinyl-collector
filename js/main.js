@@ -14,8 +14,11 @@ import { initEcouter } from './ecouter.js';
 import { initCSV } from './csv.js';
 import { initModalAdd } from './modal-add.js';
 import { initModalDetail } from './modal-detail.js';
+import { initModalEdit } from './modal-edit.js';
+import { initModalShare } from './modal-share.js';
 import { initNavigation } from './navigation.js';
 import { initAuth } from './modal-auth.js';
+import { maybeInitSharedView, sharedView } from './share-view.js';
 
 // ---- Service worker ----
 if ('serviceWorker' in navigator) {
@@ -77,10 +80,17 @@ initEcouter();
 initCSV();
 initModalAdd();
 initModalDetail();
+initModalEdit();
+initModalShare();
 initNavigation();
 
-// ---- Auth : vérifie la session + charge la collection cloud si connecté ----
-initAuth();
+// ---- Mode partage public : /share/CODE ?
+//      Si oui, on charge la collection partagée AVANT d'init l'auth.
+await maybeInitSharedView();
+
+// ---- Auth : vérifie la session + charge la collection cloud si connecté
+//      (skip si on est en mode lecture publique)
+if (!sharedView.active) initAuth();
 
 // ---- Hero vinyle = premier album ----
 if (ALBUMS.length) {
