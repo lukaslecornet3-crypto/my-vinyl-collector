@@ -17,7 +17,7 @@ import {
 } from './spotify.js';
 import { toast } from './toast.js';
 
-// ---- Indicateur "Now playing" en bas à gauche (fixed) ----
+// ---- Indicateur "Now playing" : icône en bas à gauche, click → affiche le titre ----
 function ensureNowPlayingEl() {
   let el = document.getElementById('nowPlaying');
   if (el) return el;
@@ -25,11 +25,26 @@ function ensureNowPlayingEl() {
   el.id = 'nowPlaying';
   el.className = 'now-playing hidden';
   el.innerHTML = `
-    <span class="np-pulse"></span>
-    <span class="np-text">—</span>
-    <button class="np-close" id="npCloseBtn" title="Déconnecter Spotify" aria-label="Déconnecter Spotify">✕</button>
+    <button class="np-icon" id="npIconBtn" title="Voir ce qui joue" aria-label="Voir ce qui joue">
+      <span class="np-pulse"></span>
+    </button>
+    <div class="np-expand">
+      <span class="np-text">—</span>
+      <button class="np-close" id="npCloseBtn" title="Déconnecter Spotify" aria-label="Déconnecter Spotify">✕</button>
+    </div>
   `;
   document.body.appendChild(el);
+
+  // Click sur l'icône → toggle l'affichage du titre
+  el.querySelector('#npIconBtn').addEventListener('click', (e) => {
+    e.stopPropagation();
+    el.classList.toggle('expanded');
+  });
+
+  // Click hors du widget → referme
+  document.addEventListener('click', (e) => {
+    if (!el.contains(e.target)) el.classList.remove('expanded');
+  });
 
   // Bouton "×" → déconnexion Spotify
   el.querySelector('#npCloseBtn').addEventListener('click', async (e) => {
@@ -38,6 +53,7 @@ function ensureNowPlayingEl() {
     if (!ok) return;
     await disconnectSpotify();
     toast.info('Spotify déconnecté');
+    el.classList.remove('expanded');
   });
   return el;
 }
