@@ -49,7 +49,7 @@
   display:flex; align-items:center; justify-content:center;
 }
 .actions-dropdown {
-  position:absolute; top:calc(100% + 6px); right:0;
+  position:absolute; top:calc(100% + 6px); left:0;
   z-index:50;
   min-width:180px;
   background:var(--bg-2);
@@ -59,6 +59,10 @@
   padding:.35rem;
   display:flex; flex-direction:column; gap:2px;
   animation:dropdownFade .15s ease;
+}
+/* Sur mobile : étend plus à droite pour ne pas déborder */
+@media (max-width:700px) {
+  .actions-dropdown { left:0; right:auto; min-width:200px; }
 }
 .actions-dropdown.hidden { display:none; }
 @keyframes dropdownFade {
