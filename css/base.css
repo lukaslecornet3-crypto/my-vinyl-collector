@@ -43,11 +43,14 @@ img { display:block; max-width:100%; }
   *, *::before, *::after { animation-duration:.01ms !important; transition-duration:.01ms !important; }
 }
 
+html {
+  overflow-x: clip;  /* clip = comme hidden mais ne casse pas position:sticky */
+}
 body {
   font-family:'Poppins', system-ui, sans-serif;
   background: var(--bg);
   color: var(--text);
-  overflow-x: hidden;
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
