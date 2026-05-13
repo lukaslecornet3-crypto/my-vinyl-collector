@@ -98,14 +98,15 @@
       <div class="vinyl-wrap">
         <canvas id="heroVinyl" width="300" height="300"></canvas>
         <svg class="hero-needle" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <!-- Embase / pivot (fixe) -->
-          <circle cx="278" cy="22" r="14" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="2"/>
-          <circle cx="278" cy="22" r="5"  fill="#c9a84c"/>
-          <!-- Bras fixe (l'aiguille reste posée sur la surface) -->
-          <line x1="278" y1="22" x2="200" y2="110" stroke="#888" stroke-width="6" stroke-linecap="round"/>
-          <line x1="278" y1="22" x2="200" y2="110" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" opacity=".4"/>
-          <rect x="186" y="98" width="24" height="22" fill="#1a1a1a" stroke="#666" stroke-width="1.5" rx="3"/>
-          <rect x="192" y="118" width="12" height="3" fill="#c9a84c"/>
+          <!-- Pivot dans le coin supérieur droit, hors du vinyle -->
+          <circle cx="285" cy="15" r="11" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="2"/>
+          <circle cx="285" cy="15" r="4"  fill="#c9a84c"/>
+          <!-- Bras court : reste DANS la zone coin (hors du disque) -->
+          <line x1="285" y1="15" x2="255" y2="42" stroke="#888" stroke-width="5" stroke-linecap="round"/>
+          <line x1="285" y1="15" x2="255" y2="42" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" opacity=".4"/>
+          <!-- Cartouche au bout, dans le coin hors-vinyle -->
+          <rect x="242" y="32" width="22" height="18" fill="#1a1a1a" stroke="#666" stroke-width="1.5" rx="3"/>
+          <rect x="248" y="48" width="10" height="3" fill="#c9a84c"/>
         </svg>
       </div>
       <div class="hero-now-playing">
