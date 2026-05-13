@@ -3,7 +3,7 @@
 // Met en cache l'app + les pochettes pour fonctionner offline
 // ============================================================
 
-const CACHE_NAME  = 'vinyl-collector-v18';
+const CACHE_NAME  = 'vinyl-collector-v19';
 const COVER_CACHE = 'vinyl-covers-v1';
 
 // Fichiers de l'app à mettre en cache au premier chargement

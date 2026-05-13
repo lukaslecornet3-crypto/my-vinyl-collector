@@ -1,5 +1,5 @@
 // ============================================================
-// ecouter.js — Page Écouter (liens streaming + tracklist)
+// ecouter.js — Page Écouter (liens streaming + sync vinyle d'accueil)
 // ============================================================
 
 import { ALBUMS } from './storage.js';
@@ -16,14 +16,23 @@ export function updateStreaming(album) {
     apple:   document.getElementById('appleBtn'),
   };
   if (!album) {
-    Object.values(els).forEach(b => b.classList.add('disabled'));
+    Object.values(els).forEach(b => b && b.classList.add('disabled'));
     return;
   }
   const q = encodeURIComponent(`${album.artist} ${album.title}`);
-  els.spotify.href = `https://open.spotify.com/search/${q}/albums`;
-  els.youtube.href = `https://music.youtube.com/search?q=${encodeURIComponent(album.artist + ' ' + album.title + ' full album')}`;
-  els.apple.href   = `https://music.apple.com/search?term=${q}`;
-  Object.values(els).forEach(b => b.classList.remove('disabled'));
+  if (els.spotify) els.spotify.href = `https://open.spotify.com/search/${q}/albums`;
+  if (els.youtube) els.youtube.href = `https://music.youtube.com/search?q=${encodeURIComponent(album.artist + ' ' + album.title + ' full album')}`;
+  if (els.apple)   els.apple.href   = `https://music.apple.com/search?term=${q}`;
+  Object.values(els).forEach(b => b && b.classList.remove('disabled'));
+}
+
+// Synchronise le vinyle d'accueil + le titre/artiste affichés sur le hero
+function syncHero(album) {
+  CV.hero.album = album;
+  const t = document.getElementById('heroEcoTitle');
+  const a = document.getElementById('heroEcoArtist');
+  if (t) t.textContent = album.title  || '';
+  if (a) a.textContent = album.artist || '';
 }
 
 export function setEcoAlbum(i) {
@@ -36,6 +45,9 @@ export function setEcoAlbum(i) {
   document.getElementById('ecoTitle').textContent  = a.title;
   document.getElementById('ecoArtist').textContent = a.artist;
   updateStreaming(a);
+
+  // Hero (accueil) suit l'écouter
+  syncHero(a);
 }
 
 export function initEcouter() {

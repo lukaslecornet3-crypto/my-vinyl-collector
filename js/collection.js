@@ -8,7 +8,6 @@ import { CV, gridCanvases, startLoop, isLoopRunning } from './loop.js';
 import { preloadCover } from './canvas.js';
 import { addSwipe } from './swipe.js';
 import { applyFilters, updateColCount } from './search.js';
-import { updateStreaming } from './ecouter.js';
 import { openDetail } from './modal-detail.js';
 import { openEdit } from './modal-edit.js';
 import { toast } from './toast.js';

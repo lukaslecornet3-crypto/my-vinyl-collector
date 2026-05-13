@@ -103,6 +103,3 @@ if (ALBUMS.length) {
 
 // ---- Lance la boucle d'animation ----
 startLoop();
-
-// ---- Active les transitions de thème après chargement (évite le flash) ----
-requestAnimationFrame(() => document.body.classList.add('theme-ready'));
