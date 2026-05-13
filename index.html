@@ -98,15 +98,24 @@
       <div class="vinyl-wrap">
         <canvas id="heroVinyl" width="300" height="300"></canvas>
         <svg class="hero-needle" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <!-- Embase / pivot -->
+          <!-- Embase / pivot (fixe) -->
           <circle cx="278" cy="22" r="14" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="2"/>
           <circle cx="278" cy="22" r="5"  fill="#c9a84c"/>
-          <!-- Bras -->
-          <line x1="278" y1="22" x2="200" y2="110" stroke="#888" stroke-width="6" stroke-linecap="round"/>
-          <line x1="278" y1="22" x2="200" y2="110" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" opacity=".4"/>
-          <!-- Cartouche -->
-          <rect x="186" y="98" width="24" height="22" fill="#1a1a1a" stroke="#666" stroke-width="1.5" rx="3"/>
-          <rect x="192" y="118" width="12" height="3" fill="#c9a84c"/>
+          <!-- Bras animé : balayage continu sur la surface du vinyle -->
+          <g>
+            <animateTransform
+              attributeName="transform"
+              type="rotate"
+              values="-2 278 22; 18 278 22; -2 278 22"
+              dur="18s"
+              repeatCount="indefinite"
+              calcMode="spline"
+              keySplines="0.42 0 0.58 1; 0.42 0 0.58 1"/>
+            <line x1="278" y1="22" x2="200" y2="110" stroke="#888" stroke-width="6" stroke-linecap="round"/>
+            <line x1="278" y1="22" x2="200" y2="110" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" opacity=".4"/>
+            <rect x="186" y="98" width="24" height="22" fill="#1a1a1a" stroke="#666" stroke-width="1.5" rx="3"/>
+            <rect x="192" y="118" width="12" height="3" fill="#c9a84c"/>
+          </g>
         </svg>
       </div>
       <div class="hero-now-playing">

@@ -39,37 +39,6 @@ initCV('eco',  'ecoVinyl');
 initCV('prev', 'previewVinyl');
 initCV('det',  'detailVinyl');
 
-// ---- Drag du vinyle hero (souris + tactile) ----
-(function initHeroDrag() {
-  let down = false, lastX = 0;
-  const heroEl = CV.hero.el;
-  if (!heroEl) return;
-
-  heroEl.addEventListener('mousedown', e => { down = true; lastX = e.clientX; CV.hero.speed = 0; });
-  document.addEventListener('mousemove', e => {
-    if (!down) return;
-    CV.hero.angle += (e.clientX - lastX) * .015;
-    lastX = e.clientX;
-  });
-  document.addEventListener('mouseup', () => {
-    if (!down) return;
-    down = false; CV.hero.speed = .004;
-  });
-
-  heroEl.addEventListener('touchstart', e => {
-    down = true; lastX = e.touches[0].clientX; CV.hero.speed = 0;
-  }, { passive: true });
-  document.addEventListener('touchmove', e => {
-    if (!down) return;
-    CV.hero.angle += (e.touches[0].clientX - lastX) * .015;
-    lastX = e.touches[0].clientX;
-  }, { passive: true });
-  document.addEventListener('touchend', () => {
-    if (!down) return;
-    down = false; CV.hero.speed = .004;
-  });
-})();
-
 // ---- Init des pages ----
 initSearch();
 initCollection();

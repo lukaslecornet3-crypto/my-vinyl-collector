@@ -17,58 +17,14 @@ import {
 } from './spotify.js';
 import { toast } from './toast.js';
 
-// ---- Indicateur "Now playing" : icône en bas à gauche, click → affiche le titre ----
-function ensureNowPlayingEl() {
-  let el = document.getElementById('nowPlaying');
-  if (el) return el;
-  el = document.createElement('div');
-  el.id = 'nowPlaying';
-  el.className = 'now-playing hidden';
-  el.innerHTML = `
-    <button class="np-icon" id="npIconBtn" title="Voir ce qui joue" aria-label="Voir ce qui joue">
-      <span class="np-pulse"></span>
-    </button>
-    <div class="np-expand">
-      <span class="np-text">—</span>
-      <button class="np-close" id="npCloseBtn" title="Déconnecter Spotify" aria-label="Déconnecter Spotify">✕</button>
-    </div>
-  `;
-  document.body.appendChild(el);
+// Widget "Now playing" supprimé sur demande utilisateur.
+// La connexion/déconnexion Spotify Live se fait via le bouton Spotify streaming :
+//   - Pas connecté → click connecte
+//   - Connecté → affiche le ⚡ badge + click ouvre Spotify
+function ensureNowPlayingEl() { return null; }
 
-  // Click sur l'icône → toggle l'affichage du titre
-  el.querySelector('#npIconBtn').addEventListener('click', (e) => {
-    e.stopPropagation();
-    el.classList.toggle('expanded');
-  });
-
-  // Click hors du widget → referme
-  document.addEventListener('click', (e) => {
-    if (!el.contains(e.target)) el.classList.remove('expanded');
-  });
-
-  // Bouton "×" → déconnexion Spotify
-  el.querySelector('#npCloseBtn').addEventListener('click', async (e) => {
-    e.stopPropagation();
-    const ok = await toast.confirm('Déconnecter Spotify ?');
-    if (!ok) return;
-    await disconnectSpotify();
-    toast.info('Spotify déconnecté');
-    el.classList.remove('expanded');
-  });
-  return el;
-}
-
-function refreshNavbarIndicator() {
-  const el = ensureNowPlayingEl();
-  if (!spotifyState.connected || !spotifyState.playing || !spotifyState.track) {
-    el.classList.add('hidden');
-    return;
-  }
-  el.classList.remove('hidden');
-  el.querySelector('.np-text').textContent =
-    `${spotifyState.track.name} — ${spotifyState.track.artists.join(', ')}`;
-  el.title = `${spotifyState.track.name} — ${spotifyState.track.artists.join(', ')} (Spotify)`;
-}
+// Widget supprimé → no-op (gardé pour compat. avec les listeners onSpotifyChange)
+function refreshNavbarIndicator() { /* no-op */ }
 
 // ---- Matching automatique : album Spotify → vinyle de la collection ----
 function findMatchingAlbumIndex(track) {
