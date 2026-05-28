@@ -8,6 +8,7 @@
 const ALLOWED_PATHS = [
   /^\/database\/search$/,
   /^\/marketplace\/price_suggestions\/\d+$/,
+  /^\/releases\/\d+$/,            // détails d'une release (tracklist, label, cover…)
 ];
 
 export default async function handler(req, res) {

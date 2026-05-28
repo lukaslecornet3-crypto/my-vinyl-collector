@@ -41,6 +41,76 @@ function proxyUrl(path, params = {}) {
   return url.toString();
 }
 
+// Discogs renvoie le titre sous la forme "Artiste - Titre" → on sépare
+function splitDiscogsTitle(combined) {
+  const idx = (combined || '').indexOf(' - ');
+  if (idx === -1) return { artist: '', title: combined || '' };
+  return {
+    artist: combined.slice(0, idx).trim(),
+    title:  combined.slice(idx + 3).trim(),
+  };
+}
+
+// Normalise un résultat Discogs vers le format commun de l'app
+function normalizeDiscogsResult(r) {
+  const { artist, title } = splitDiscogsTitle(r.title);
+  return {
+    source:   'discogs',
+    discogsId: r.id,
+    title,
+    artist,
+    year:     r.year ? String(r.year) : '—',
+    label:    Array.isArray(r.label) ? r.label[0] : (r.label || '—'),
+    coverUrl: r.cover_image || r.thumb || '',
+  };
+}
+
+// Recherche texte sur Discogs (releases vinyle en priorité)
+export async function searchDiscogs(query, signal) {
+  try {
+    const res = await fetch(proxyUrl('/database/search', {
+      q: query, type: 'release', format: 'Vinyl', per_page: 25,
+    }), { signal });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return (data.results || []).map(normalizeDiscogsResult);
+  } catch (e) {
+    if (e.name === 'AbortError') throw e;
+    return [];
+  }
+}
+
+// Recherche par code-barres (EAN/UPC) — identifie le pressage exact
+export async function searchDiscogsByBarcode(barcode, signal) {
+  try {
+    const res = await fetch(proxyUrl('/database/search', {
+      barcode, type: 'release', per_page: 10,
+    }), { signal });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return (data.results || []).map(normalizeDiscogsResult);
+  } catch (e) {
+    if (e.name === 'AbortError') throw e;
+    return [];
+  }
+}
+
+// Détails complets d'une release Discogs (tracklist, label, cover HD, année)
+export async function fetchDiscogsRelease(id) {
+  const res = await fetch(proxyUrl(`/releases/${id}`));
+  if (!res.ok) throw new Error('Release Discogs indisponible');
+  const r = await res.json();
+  return {
+    title:    r.title || '',
+    artist:   r.artists?.[0]?.name?.replace(/\s*\(\d+\)$/, '') || '',
+    year:     r.year ? String(r.year) : '—',
+    label:    r.labels?.[0]?.name || '—',
+    coverUrl: r.images?.find(i => i.type === 'primary')?.uri || r.images?.[0]?.uri || '',
+    tracks:   (r.tracklist || []).filter(t => t.title).map(t => t.title),
+    durations:(r.tracklist || []).filter(t => t.title).map(t => t.duration || '—'),
+  };
+}
+
 export async function fetchDiscogsValue(album) {
   const cacheKey = `${album.artist}__${album.title}`;
   if (valCache[cacheKey]) return valCache[cacheKey];

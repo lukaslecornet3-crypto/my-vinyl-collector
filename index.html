@@ -339,8 +339,19 @@
         <input type="search" id="searchInput" class="search-input" placeholder="Titre ou artiste..." autocomplete="off">
         <button class="btn-gold" id="searchBtn">Rechercher</button>
       </div>
+      <button class="btn-outline btn-scan" id="scanBtn">📷 Scanner un code-barres</button>
       <div class="search-status"  id="searchStatus"></div>
       <div class="search-results" id="searchResults"></div>
+
+      <!-- Overlay caméra (scan code-barres) -->
+      <div class="scanner-overlay hidden" id="scannerOverlay">
+        <div class="scanner-box">
+          <video id="scannerVideo" playsinline muted></video>
+          <div class="scanner-reticle"></div>
+        </div>
+        <div class="scanner-hint" id="scannerHint">Vise le code-barres au dos de la pochette…</div>
+        <button class="btn-outline" id="scanCancelBtn">Annuler</button>
+      </div>
     </div>
     <div class="modal-step hidden" id="step2">
       <div class="confirm-top">
