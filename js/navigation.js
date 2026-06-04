@@ -38,9 +38,6 @@ export function navigateTo(page) {
   if (page === 'valeur')  setValAlbum(0);
   if (page === 'ecouter') setEcoAlbum(0);
   if (page === 'stats')   buildStats();
-
-  // Notifie les sensations (crackle vinyle selon la page)
-  window.dispatchEvent(new CustomEvent('mvc:pagechange', { detail: page }));
 }
 
 export function initNavigation() {

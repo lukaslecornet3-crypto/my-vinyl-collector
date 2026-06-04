@@ -1,33 +1,7 @@
 /* ============================================================
-   sensations.css — Micro-animations + bouton son flottant
+   sensations.css — Micro-animations
    (tout est désactivé si l'utilisateur préfère moins d'animation)
    ============================================================ */
-
-/* ---- Bouton son flottant (bas-gauche) ---- */
-.sound-toggle {
-  position: fixed;
-  bottom: 1rem;
-  left: 1rem;
-  z-index: 200;
-  width: 44px; height: 44px;
-  display: flex; align-items: center; justify-content: center;
-  border-radius: 50%;
-  background: rgba(8, 8, 8, 0.92);
-  border: 1px solid var(--border-2);
-  color: var(--text-muted);
-  font-size: 1.1rem;
-  cursor: pointer;
-  backdrop-filter: blur(8px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-  transition: transform .15s ease, border-color .2s ease, color .2s ease;
-}
-.sound-toggle:hover  { border-color: var(--gold); color: var(--gold); }
-.sound-toggle:active { transform: scale(.9); }
-.sound-toggle.on     { color: var(--gold); border-color: var(--gold); }
-
-@media (max-width: 700px) {
-  .sound-toggle { width: 40px; height: 40px; bottom: .75rem; left: .75rem; font-size: 1rem; }
-}
 
 /* ============================================================
    MICRO-ANIMATIONS (seulement si l'utilisateur ne les a pas désactivées)
