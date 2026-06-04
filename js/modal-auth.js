@@ -137,4 +137,23 @@ export async function initAuth() {
   overlay.addEventListener('click', e => { if (e.target === overlay) closeAuth(); });
   toggleBtn.addEventListener('click', () => setMode(mode === 'login' ? 'register' : 'login'));
   form.addEventListener('submit', handleSubmit);
+
+  // 4) Sync auto entre appareils : quand l'onglet redevient visible,
+  //    on re-fetch la collection cloud pour récupérer les changements
+  //    faits depuis un autre device (téléphone <-> ordi)
+  document.addEventListener('visibilitychange', async () => {
+    if (document.hidden || !authState.user) return;
+    try {
+      const cloud = await loadCloudCollection();
+      if (!cloud) return;
+      // Diff simple : on compare juste la longueur + hash rapide du JSON
+      const localKey = JSON.stringify(ALBUMS.map(a => `${a.title}|${a.artist}`));
+      const cloudKey = JSON.stringify(cloud.map(a => `${a.title}|${a.artist}`));
+      if (localKey === cloudKey) return; // pas de changement
+      replaceCollection(cloud);
+      state.filteredAlbums = [...ALBUMS];
+      applyFilters();
+      toast.info('Collection synchronisée');
+    } catch {}
+  });
 }

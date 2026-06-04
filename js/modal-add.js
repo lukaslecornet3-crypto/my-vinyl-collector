@@ -38,7 +38,6 @@ function resetModal() {
   document.getElementById('searchInput').value      = '';
   document.getElementById('searchResults').innerHTML = '';
   document.getElementById('searchStatus').textContent = '';
-  document.getElementById('notesInput').value       = '';
   state.selectedData = null;
 }
 
@@ -114,7 +113,6 @@ function renderResults(results) {
 
     const img = document.createElement('img');
     img.className   = 'result-thumb';
-    img.crossOrigin = 'anonymous';
     img.alt         = r.title;
     img.loading     = 'lazy';
     img.src         = r.coverUrl || '';
@@ -201,12 +199,11 @@ function showStep2() {
 async function confirmAdd() {
   const { title, artist, year, colorPair, coverUrl, label, tracks, durations } = state.selectedData;
   const condition = document.getElementById('conditionSelect').value;
-  const notes     = document.getElementById('notesInput').value.trim();
 
   const v = await fetchDiscogsValue({ artist, title, year: parseInt(year), condition });
 
   const newAlbum = {
-    title, artist, year: parseInt(year) || year, label, condition, notes,
+    title, artist, year: parseInt(year) || year, label, condition,
     value: v.mid, low: v.low, mid: v.mid, high: v.high,
     color: colorPair.color, rim: colorPair.rim, coverUrl,
     tracks:    tracks.length    ? tracks    : ['Piste 1','Piste 2','Piste 3'],
