@@ -15,9 +15,13 @@ export function preloadCover(url) {
   // Pas de crossOrigin : Discogs ne sert pas toujours CORS → la pochette
   // ne s'afficherait pas. Pour notre usage (drawImage seul, pas de
   // getImageData/toDataURL), un canvas "tainted" ne pose aucun problème.
-  img.onload  = () => { coverCache[url] = img; staticCache = {}; };
+  const done = () => { coverCache[url] = img; staticCache = {}; };
+  img.onload  = done;
   img.onerror = () => { coverCache[url] = false; };
   img.src = url;
+  // Si l'image était déjà en cache navigateur, onload peut ne pas se
+  // déclencher → on vérifie tout de suite
+  if (img.complete && img.naturalWidth > 0) done();
 }
 
 // Construit (ou récupère depuis le cache) le disque statique

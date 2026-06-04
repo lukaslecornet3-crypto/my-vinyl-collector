@@ -3,8 +3,9 @@
 // Met en cache l'app + les pochettes pour fonctionner offline
 // ============================================================
 
-const CACHE_NAME  = 'vinyl-collector-v27';
-const COVER_CACHE = 'vinyl-covers-v2';  // bump : purge les pochettes CORS corrompues (crossOrigin retiré)
+const CACHE_NAME  = 'vinyl-collector-v28';
+// Plus de cache de pochettes : les images sont gérées nativement par le navigateur
+// (le cache de pochettes provoquait des macarons vides au refresh normal)
 
 // Fichiers de l'app à mettre en cache au premier chargement
 const STATIC_FILES = [
@@ -71,12 +72,12 @@ self.addEventListener('install', e => {
   );
 });
 
-// ---- Activation : suppression des anciens caches
+// ---- Activation : suppression de TOUS les anciens caches (dont les pochettes)
 self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys().then(keys =>
       Promise.all(
-        keys.filter(k => k !== CACHE_NAME && k !== COVER_CACHE)
+        keys.filter(k => k !== CACHE_NAME)
             .map(k => caches.delete(k))
       )
     ).then(() => self.clients.claim())
@@ -87,21 +88,9 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
 
-  // Pochettes : cache-first
-  if (url.hostname === 'coverartarchive.org') {
-    e.respondWith(
-      caches.open(COVER_CACHE).then(cache =>
-        cache.match(e.request).then(cached => {
-          if (cached) return cached;
-          return fetch(e.request).then(res => {
-            if (res.ok) cache.put(e.request, res.clone());
-            return res;
-          }).catch(() => new Response('', { status: 404 }));
-        })
-      )
-    );
-    return;
-  }
+  // IMAGES : on ne touche à rien → le navigateur les gère nativement
+  // (comportement identique à un hard refresh, évite les macarons vides)
+  if (e.request.destination === 'image') return;
 
   // Polices Google : cache-first
   if (url.hostname.includes('fonts.g')) {
