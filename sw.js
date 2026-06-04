@@ -3,7 +3,7 @@
 // Met en cache l'app + les pochettes pour fonctionner offline
 // ============================================================
 
-const CACHE_NAME  = 'vinyl-collector-v30';
+const CACHE_NAME  = 'vinyl-collector-v31';
 // Plus de cache de pochettes : les images sont gérées nativement par le navigateur
 // (le cache de pochettes provoquait des macarons vides au refresh normal)
 
