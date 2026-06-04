@@ -8,6 +8,8 @@
 //   await toast.confirm('Supprimer ?')  → renvoie true/false
 // ============================================================
 
+import { haptic } from './sensations.js';
+
 const TOAST_DURATION = 3500;
 
 // Container unique — créé à la demande
@@ -29,6 +31,9 @@ function show(message, type = 'info', duration = TOAST_DURATION) {
   el.className = `toast toast-${type}`;
   el.textContent = message;
   container.appendChild(el);
+
+  // Vibration selon le type de toast
+  haptic(type === 'error' || type === 'warn' ? 'warn' : 'success');
 
   // Force le reflow pour l'animation d'entrée
   requestAnimationFrame(() => el.classList.add('toast-show'));
@@ -83,8 +88,8 @@ export const toast = {
         el.classList.add('toast-hide');
         setTimeout(() => { el.remove(); resolve(answer); }, 250);
       };
-      noBtn.onclick  = () => close(false);
-      yesBtn.onclick = () => close(true);
+      noBtn.onclick  = () => { haptic('tick');   close(false); };
+      yesBtn.onclick = () => { haptic('select'); close(true);  };
       yesBtn.focus();
     });
   },

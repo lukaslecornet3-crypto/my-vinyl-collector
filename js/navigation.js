@@ -10,6 +10,7 @@ import { setEcoAlbum } from './ecouter.js';
 import { buildStats } from './stats.js';
 import { closeModal } from './modal-add.js';
 import { closeDetail } from './modal-detail.js';
+import { haptic } from './sensations.js';
 
 const pages    = document.querySelectorAll('.page');
 const navLinks = document.querySelectorAll('.nav-link[data-page]');
@@ -37,13 +38,16 @@ export function navigateTo(page) {
   if (page === 'valeur')  setValAlbum(0);
   if (page === 'ecouter') setEcoAlbum(0);
   if (page === 'stats')   buildStats();
+
+  // Notifie les sensations (crackle vinyle selon la page)
+  window.dispatchEvent(new CustomEvent('mvc:pagechange', { detail: page }));
 }
 
 export function initNavigation() {
   navLinks.forEach(l => l.addEventListener('click', e => {
     e.preventDefault();
     const p = l.dataset.page;
-    if (p) navigateTo(p);
+    if (p) { haptic('tick'); navigateTo(p); }
   }));
 
   // Raccourcis clavier

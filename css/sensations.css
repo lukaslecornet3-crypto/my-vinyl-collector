@@ -1,0 +1,79 @@
+/* ============================================================
+   sensations.css — Micro-animations + bouton son flottant
+   (tout est désactivé si l'utilisateur préfère moins d'animation)
+   ============================================================ */
+
+/* ---- Bouton son flottant (bas-gauche) ---- */
+.sound-toggle {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  z-index: 200;
+  width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  background: rgba(8, 8, 8, 0.92);
+  border: 1px solid var(--border-2);
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  transition: transform .15s ease, border-color .2s ease, color .2s ease;
+}
+.sound-toggle:hover  { border-color: var(--gold); color: var(--gold); }
+.sound-toggle:active { transform: scale(.9); }
+.sound-toggle.on     { color: var(--gold); border-color: var(--gold); }
+
+@media (max-width: 700px) {
+  .sound-toggle { width: 40px; height: 40px; bottom: .75rem; left: .75rem; font-size: 1rem; }
+}
+
+/* ============================================================
+   MICRO-ANIMATIONS (seulement si l'utilisateur ne les a pas désactivées)
+   ============================================================ */
+@media (prefers-reduced-motion: no-preference) {
+
+  /* Boutons : léger enfoncement au clic */
+  .btn-gold, .btn-outline, .btn-delete, .btn-sm,
+  .view-btn, .dropdown-item, .modal-close,
+  .nav-arrow, .nav-arrow2, .stream-btn {
+    transition: transform .12s cubic-bezier(.34,1.56,.64,1),
+                background var(--tr), border-color var(--tr), color var(--tr), box-shadow var(--tr), filter var(--tr);
+  }
+  .btn-gold:active, .btn-outline:active, .btn-delete:active,
+  .btn-sm:active, .view-btn:active, .nav-arrow:active,
+  .nav-arrow2:active, .stream-btn:active {
+    transform: scale(.95);
+  }
+
+  /* Liens de navigation : petit rebond à l'activation */
+  .nav-link:active { transform: scale(.94); }
+
+  /* Cartes grille : réaction tactile */
+  .grid-item:active { transform: scale(.98); }
+
+  /* Résultats de recherche : glisse à l'arrivée */
+  .result-item { transition: transform .15s ease, background var(--tr), border-color var(--tr); }
+  .result-item:active { transform: scale(.99); }
+
+  /* Apparition "pop" (ajout d'un vinyle, ouverture de modal…) */
+  @keyframes mvc-pop {
+    0%   { transform: scale(.85); opacity: 0; }
+    60%  { transform: scale(1.04); }
+    100% { transform: scale(1);    opacity: 1; }
+  }
+  .pop-in { animation: mvc-pop .38s cubic-bezier(.34,1.56,.64,1); }
+
+  /* Le macaron qui pulse doucement quand on arrive sur un album */
+  @keyframes mvc-album-in {
+    from { transform: scale(.96); opacity: .4; }
+    to   { transform: scale(1);   opacity: 1; }
+  }
+  .album-title, .player-title, .hero-eco-title {
+    animation: mvc-album-in .3s ease;
+  }
+
+  /* Toasts : petit rebond à l'entrée (surcharge la transition existante) */
+  .toast.toast-show { animation: mvc-pop .3s cubic-bezier(.34,1.56,.64,1); }
+}

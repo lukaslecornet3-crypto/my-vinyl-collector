@@ -20,6 +20,7 @@ import { initAuth } from './modal-auth.js';
 import { maybeInitSharedView, sharedView } from './share-view.js';
 import { initSpotifyUI } from './spotify-ui.js';
 import { initActionsMenu } from './actions-menu.js';
+import { initSensations } from './sensations.js';
 
 // ---- Service worker ----
 if ('serviceWorker' in navigator) {
@@ -51,6 +52,7 @@ initModalEdit();
 initModalShare();
 initNavigation();
 initActionsMenu();
+initSensations();
 
 // ---- Mode partage public : /share/CODE ?
 //      Si oui, on charge la collection partagée AVANT d'init l'auth.
