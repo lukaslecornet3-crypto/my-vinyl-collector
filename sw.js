@@ -3,8 +3,8 @@
 // Met en cache l'app + les pochettes pour fonctionner offline
 // ============================================================
 
-const CACHE_NAME  = 'vinyl-collector-v26';
-const COVER_CACHE = 'vinyl-covers-v1';
+const CACHE_NAME  = 'vinyl-collector-v27';
+const COVER_CACHE = 'vinyl-covers-v2';  // bump : purge les pochettes CORS corrompues (crossOrigin retiré)
 
 // Fichiers de l'app à mettre en cache au premier chargement
 const STATIC_FILES = [

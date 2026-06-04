@@ -48,6 +48,12 @@
 /* ---- Bouton + overlay scanner code-barres ---- */
 .btn-scan { width:100%; justify-content:center; }
 
+/* Le scan n'a de sens que sur un appareil tactile avec caméra (téléphone/tablette).
+   Sur un ordinateur (souris, pointeur fin) on masque le bouton. */
+@media (hover: hover) and (pointer: fine) {
+  .btn-scan { display:none; }
+}
+
 .scanner-overlay {
   display:flex; flex-direction:column; align-items:center; gap:1rem;
   padding:1rem 0;

@@ -8,8 +8,7 @@
   display:flex; align-items:center; justify-content:space-between;
   padding:0 2rem; height:var(--navbar-h);
   background:var(--bg); border-bottom:1px solid var(--border);
-  backdrop-filter:blur(4px); will-change:transform;
-  transition: background var(--tr), border-color var(--tr);
+  /* Fond OPAQUE (pas de backdrop-filter) : évite le jitter vertical au scroll mobile/iOS */
 }
 
 .logo {
@@ -28,10 +27,8 @@
 
 .nav-links {
   flex:1; min-width:0;
-  overflow-x:auto;
-  scrollbar-width:none;
+  /* Pas de scroll horizontal : la barre ne doit pas glisser de droite à gauche */
 }
-.nav-links::-webkit-scrollbar { display:none; }
 .nav-links ul {
   display:flex; gap:.2rem; align-items:center;
   flex-wrap:nowrap;
