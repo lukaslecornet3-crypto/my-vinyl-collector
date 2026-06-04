@@ -37,8 +37,16 @@ export default async function handler(req, res) {
         'Authorization': `Discogs token=${token}`,
       },
     });
-    const data = await upstream.json();
 
+    // price_suggestions renvoie souvent 404/403 (pas de données de prix pour
+    // ce pressage) → c'est NORMAL. On renvoie 200 {} pour éviter une erreur
+    // rouge dans la console : le client bascule alors sur l'estimation locale.
+    if (path.includes('/price_suggestions/') && !upstream.ok) {
+      res.setHeader('Cache-Control', 's-maxage=3600');
+      return res.status(200).json({});
+    }
+
+    const data = await upstream.json();
     // Cache CDN Vercel : 1h frais, 24h stale-while-revalidate
     res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate=86400');
     return res.status(upstream.status).json(data);
