@@ -21,7 +21,7 @@ async function postJson(url, body) {
 // Vérifie si on a déjà une session côté serveur (cookie)
 export async function checkAuth() {
   try {
-    const res = await fetch('/api/auth/me', { credentials: 'same-origin' });
+    const res = await fetch('/api/auth?action=me', { credentials: 'same-origin' });
     if (res.ok) {
       const data = await res.json();
       authState.user = data.email;
@@ -33,18 +33,18 @@ export async function checkAuth() {
 }
 
 export async function register(email, password) {
-  const data = await postJson('/api/auth/register', { email, password });
+  const data = await postJson('/api/auth?action=register', { email, password });
   authState.user = data.email;
   return data.email;
 }
 
 export async function login(email, password) {
-  const data = await postJson('/api/auth/login', { email, password });
+  const data = await postJson('/api/auth?action=login', { email, password });
   authState.user = data.email;
   return data.email;
 }
 
 export async function logout() {
-  try { await postJson('/api/auth/logout'); } catch {}
+  try { await postJson('/api/auth?action=logout'); } catch {}
   authState.user = null;
 }

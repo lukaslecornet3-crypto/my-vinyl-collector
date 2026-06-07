@@ -166,7 +166,7 @@ export async function initAuth() {
 
   // Bouton "Continuer avec Discord" → redirection OAuth serveur
   document.getElementById('discordLoginBtn')?.addEventListener('click', () => {
-    location.href = '/api/discord/login';
+    location.href = '/api/discord';
   });
 
   // 3bis) Retour d'un login Discord (?auth=discord ou ?auth=error)
