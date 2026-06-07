@@ -44,6 +44,31 @@
 #authSubmit { width:100%; justify-content:center; }
 #authSubmit:disabled { opacity:.6; cursor:wait; }
 
+/* ---- Séparateur "ou" ---- */
+.auth-sep {
+  display:flex; align-items:center; gap:.75rem;
+  color:var(--text-dim); font-size:.72rem;
+  text-transform:uppercase; letter-spacing:1.5px;
+}
+.auth-sep::before, .auth-sep::after {
+  content:''; flex:1; height:1px; background:var(--border);
+}
+
+/* ---- Bouton Discord ---- */
+.discord-btn {
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  width:100%;
+  padding:.7rem 1.2rem;
+  background:#5865F2; color:#fff;
+  font-size:.85rem; font-weight:600; font-family:inherit;
+  border:none; border-radius:var(--radius);
+  cursor:pointer;
+  transition:filter var(--tr), transform var(--tr);
+}
+.discord-btn:hover  { filter:brightness(1.1); transform:translateY(-1px); }
+.discord-btn:active { transform:translateY(0); }
+.discord-icon { width:20px; height:20px; flex-shrink:0; }
+
 .auth-toggle {
   display:flex; gap:6px; justify-content:center; align-items:center;
   font-size:.78rem; color:var(--text-dim);

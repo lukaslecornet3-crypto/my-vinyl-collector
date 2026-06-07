@@ -110,6 +110,32 @@ async function handleLogout() {
   toast.info('Déconnecté');
 }
 
+// Gère le retour de l'OAuth Discord (paramètres ?auth=...)
+function handleAuthRedirect() {
+  const p = new URLSearchParams(location.search);
+  const status = p.get('auth');
+  if (!status) return;
+
+  // Nettoie l'URL (retire ?auth=... &reason=...)
+  const url = new URL(location);
+  url.searchParams.delete('auth');
+  url.searchParams.delete('reason');
+  history.replaceState({}, '', url.toString());
+
+  if (status === 'discord') {
+    // checkAuth() a déjà détecté la session + chargé la collection au démarrage
+    refreshAuthUI();
+    spotifyOnAuthChange();
+    toast.success(`Connecté avec Discord${authState.user ? ' · ' + authState.user : ''}`);
+  } else if (status === 'error') {
+    const reason = p.get('reason');
+    const msg = reason === 'no_email'
+      ? 'Ton compte Discord n\'a pas d\'email vérifié.'
+      : 'Échec de la connexion Discord.';
+    toast.error(msg);
+  }
+}
+
 export async function initAuth() {
   // 1) On vérifie la session côté serveur
   const email = await checkAuth();
@@ -137,6 +163,14 @@ export async function initAuth() {
   overlay.addEventListener('click', e => { if (e.target === overlay) closeAuth(); });
   toggleBtn.addEventListener('click', () => setMode(mode === 'login' ? 'register' : 'login'));
   form.addEventListener('submit', handleSubmit);
+
+  // Bouton "Continuer avec Discord" → redirection OAuth serveur
+  document.getElementById('discordLoginBtn')?.addEventListener('click', () => {
+    location.href = '/api/discord/login';
+  });
+
+  // 3bis) Retour d'un login Discord (?auth=discord ou ?auth=error)
+  handleAuthRedirect();
 
   // 4) Sync auto entre appareils : quand l'onglet redevient visible,
   //    on re-fetch la collection cloud pour récupérer les changements
