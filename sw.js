@@ -3,7 +3,7 @@
 // Met en cache l'app + les pochettes pour fonctionner offline
 // ============================================================
 
-const CACHE_NAME  = 'vinyl-collector-v33';
+const CACHE_NAME  = 'vinyl-collector-v34';
 // Plus de cache de pochettes : les images sont gérées nativement par le navigateur
 // (le cache de pochettes provoquait des macarons vides au refresh normal)
 
@@ -61,6 +61,7 @@ const STATIC_FILES = [
   '/js/actions-menu.js',
   '/js/barcode-scanner.js',
   '/js/sensations.js',
+  '/js/badges.js',
   '/js/api/discogs.js',
   '/js/api/musicbrainz.js',
 ];

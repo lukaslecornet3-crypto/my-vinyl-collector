@@ -13,6 +13,7 @@ import { searchReleaseGroups, fetchReleaseGroupDetails, formatDuration } from '.
 import { fetchDiscogsValue, searchDiscogs, searchDiscogsByBarcode, fetchDiscogsRelease } from './api/discogs.js';
 import { startScanner, stopScanner } from './barcode-scanner.js';
 import { toast } from './toast.js';
+import { checkBadges } from './badges.js';
 
 const modalOverlay = document.getElementById('modalOverlay');
 
@@ -218,6 +219,7 @@ async function confirmAdd() {
   closeModal();
   navigateTo('collection');
   toast.success(`"${title}" ajouté à ta collection`);
+  checkBadges(); // notifie d'éventuels nouveaux trophées
 }
 
 // ---- Scanner code-barres ----

@@ -310,4 +310,4 @@ Tu n'es enfermé avec personne. Le code est standard, propre et commenté :
 
 ---
 
-*Bon courage Lukas — ce site est à toi. 🎶*
+*Bon courage Lukas. 🎶*

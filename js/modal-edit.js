@@ -7,6 +7,7 @@ import { state } from './state.js';
 import { applyFilters } from './search.js';
 import { toast } from './toast.js';
 import { sharedView } from './share-view.js';
+import { checkBadges } from './badges.js';
 
 const overlay = document.getElementById('editOverlay');
 const closeBtn = document.getElementById('closeEdit');
@@ -98,6 +99,7 @@ async function handleSubmit(e) {
   applyFilters();
   closeEdit();
   toast.success('Modifications enregistrées');
+  checkBadges();
 }
 
 export function initModalEdit() {

@@ -7,6 +7,7 @@ import { state } from './state.js';
 import { COLORS } from './data.js';
 import { applyFilters } from './search.js';
 import { toast } from './toast.js';
+import { checkBadges } from './badges.js';
 
 function csvEscape(v) {
   return `"${String(v ?? '').replace(/"/g, '""')}"`;
@@ -99,6 +100,7 @@ export function initCSV() {
         state.filteredAlbums = [...ALBUMS];
         applyFilters();
         toast.success(`${imported.length} album(s) importé(s) !`);
+        checkBadges();
       } catch (err) {
         toast.error('Erreur de lecture du CSV');
         console.error(err);

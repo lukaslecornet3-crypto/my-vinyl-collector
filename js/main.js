@@ -21,6 +21,7 @@ import { maybeInitSharedView, sharedView } from './share-view.js';
 import { initSpotifyUI } from './spotify-ui.js';
 import { initActionsMenu } from './actions-menu.js';
 import { initSensations } from './sensations.js';
+import { checkBadges } from './badges.js';
 
 // ---- Service worker ----
 if ('serviceWorker' in navigator) {
@@ -74,3 +75,6 @@ if (ALBUMS.length) {
 
 // ---- Lance la boucle d'animation ----
 startLoop();
+
+// ---- Trophées : enregistre l'état de départ (silencieux, sans toast) ----
+checkBadges();
