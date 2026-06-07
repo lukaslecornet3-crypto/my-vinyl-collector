@@ -48,3 +48,15 @@ export async function logout() {
   try { await postJson('/api/auth?action=logout'); } catch {}
   authState.user = null;
 }
+
+// Demande un email de réinitialisation (réponse toujours "ok" → anti-énumération)
+export async function forgotPassword(email) {
+  await postJson('/api/auth?action=forgot', { email });
+}
+
+// Définit un nouveau mot de passe à partir d'un jeton (lien email)
+export async function resetPassword(token, password) {
+  const data = await postJson('/api/auth?action=reset', { token, password });
+  authState.user = data.email;
+  return data.email;
+}

@@ -5,7 +5,7 @@
 
 import { state } from './state.js';
 import { ALBUMS, replaceCollection, saveCollection } from './storage.js';
-import { authState, checkAuth, login, register, logout } from './auth.js';
+import { authState, checkAuth, login, register, logout, forgotPassword } from './auth.js';
 import { loadCloudCollection, saveCloudCollection, flushCloudSave } from './cloud-sync.js';
 import { applyFilters } from './search.js';
 import { toast } from './toast.js';
@@ -23,7 +23,10 @@ const toggleBtn = document.getElementById('authToggleBtn');
 const closeBtn  = document.getElementById('closeAuth');
 const authBtn   = document.getElementById('authBtn');
 
-let mode = 'login'; // 'login' | 'register'
+let mode = 'login'; // 'login' | 'register' | 'forgot'
+
+const passLabel  = passEl.closest('label');           // pour masquer le champ mdp en mode forgot
+const forgotBtn  = document.getElementById('authForgotBtn');
 
 function openAuth() {
   overlay.classList.add('open');
@@ -37,15 +40,26 @@ function closeAuth() {
 
 function setMode(m) {
   mode = m;
+  // Éléments visibles selon le mode
+  const isForgot = m === 'forgot';
+  if (passLabel) passLabel.style.display = isForgot ? 'none' : '';
+  passEl.required = !isForgot;
+  if (forgotBtn) forgotBtn.style.display = m === 'login' ? '' : 'none';
+
   if (m === 'login') {
     titleEl.textContent   = 'Se connecter';
     submitEl.textContent  = 'Se connecter';
     toggleTxt.textContent = 'Pas encore de compte ?';
     toggleBtn.textContent = 'Créer un compte';
-  } else {
+  } else if (m === 'register') {
     titleEl.textContent   = 'Créer un compte';
     submitEl.textContent  = 'Créer mon compte';
     toggleTxt.textContent = 'Déjà inscrit ?';
+    toggleBtn.textContent = 'Se connecter';
+  } else { // forgot
+    titleEl.textContent   = 'Mot de passe oublié';
+    submitEl.textContent  = 'Envoyer le lien';
+    toggleTxt.textContent = 'Tu t\'en souviens ?';
     toggleBtn.textContent = 'Se connecter';
   }
   errorEl.textContent = '';
@@ -72,6 +86,14 @@ async function handleSubmit(e) {
   const password = passEl.value;
 
   try {
+    if (mode === 'forgot') {
+      await forgotPassword(email);
+      toast.success('Si un compte existe, un email vient d\'être envoyé.');
+      setMode('login');
+      closeAuth();
+      form.reset();
+      return;
+    }
     if (mode === 'register') {
       await register(email, password);
       if (ALBUMS.length) await saveCloudCollection([...ALBUMS]);
@@ -161,7 +183,9 @@ export async function initAuth() {
   });
   closeBtn.addEventListener('click', closeAuth);
   overlay.addEventListener('click', e => { if (e.target === overlay) closeAuth(); });
+  // Toggle : depuis login → register ; depuis register/forgot → login
   toggleBtn.addEventListener('click', () => setMode(mode === 'login' ? 'register' : 'login'));
+  forgotBtn?.addEventListener('click', () => setMode('forgot'));
   form.addEventListener('submit', handleSubmit);
 
   // Bouton "Continuer avec Discord" → redirection OAuth serveur

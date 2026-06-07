@@ -7,6 +7,7 @@ import { state } from './state.js';
 import { CV } from './loop.js';
 import { preloadCover } from './canvas.js';
 import { addSwipe } from './swipe.js';
+import { applyCoverGlow } from './color-extract.js';
 
 // Met à jour les liens Spotify / YouTube Music / Apple Music
 export function updateStreaming(album) {
@@ -33,6 +34,8 @@ function syncHero(album) {
   const a = document.getElementById('heroEcoArtist');
   if (t) t.textContent = album.title  || '';
   if (a) a.textContent = album.artist || '';
+  // Glow coloré derrière le vinyle d'accueil
+  applyCoverGlow(document.querySelector('#page-home .vinyl-wrap'), album.coverUrl);
 }
 
 export function setEcoAlbum(i) {
@@ -45,6 +48,9 @@ export function setEcoAlbum(i) {
   document.getElementById('ecoTitle').textContent  = a.title;
   document.getElementById('ecoArtist').textContent = a.artist;
   updateStreaming(a);
+
+  // Glow coloré derrière le vinyle de la page Écouter
+  applyCoverGlow(document.getElementById('ecoVinylWrap'), a.coverUrl);
 
   // Hero (accueil) suit l'écouter
   syncHero(a);

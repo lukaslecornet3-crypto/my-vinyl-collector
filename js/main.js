@@ -18,6 +18,7 @@ import { initModalShare } from './modal-share.js';
 import { initNavigation } from './navigation.js';
 import { initAuth } from './modal-auth.js';
 import { maybeInitSharedView, sharedView } from './share-view.js';
+import { maybeInitResetView } from './reset-view.js';
 import { initSpotifyUI } from './spotify-ui.js';
 import { initActionsMenu } from './actions-menu.js';
 import { initSensations } from './sensations.js';
@@ -54,6 +55,9 @@ initModalShare();
 initNavigation();
 initActionsMenu();
 initSensations();
+
+// ---- Page de réinitialisation du mot de passe : /reset/TOKEN ?
+maybeInitResetView();
 
 // ---- Mode partage public : /share/CODE ?
 //      Si oui, on charge la collection partagée AVANT d'init l'auth.

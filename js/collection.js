@@ -11,6 +11,7 @@ import { applyFilters, updateColCount } from './search.js';
 import { openDetail } from './modal-detail.js';
 import { openEdit } from './modal-edit.js';
 import { toast } from './toast.js';
+import { applyCoverGlow } from './color-extract.js';
 
 let gridObserver = null;
 
@@ -97,6 +98,9 @@ export function setColAlbum(i, dir = 1) {
   document.querySelectorAll('#colDots .dot').forEach((d, j) =>
     d.classList.toggle('active', j === state.colIdx)
   );
+
+  // Glow coloré derrière le vinyle (couleur dominante de la pochette)
+  applyCoverGlow(document.getElementById('colVinylWrap'), album.coverUrl);
 }
 
 export function rebuildCollection() {

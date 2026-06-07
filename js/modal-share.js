@@ -5,6 +5,7 @@
 import { authState } from './auth.js';
 import { getMyShareCode, enableShare, disableShare, buildShareUrl } from './share.js';
 import { toast } from './toast.js';
+import { generateShareCard } from './share-card.js';
 
 const overlay   = document.getElementById('shareOverlay');
 const closeBtn  = document.getElementById('closeShare');
@@ -125,4 +126,5 @@ export function initModalShare() {
   regenBtn.addEventListener('click', handleRegen);
   disableBtn.addEventListener('click', handleDisable);
   copyBtn.addEventListener('click', handleCopy);
+  document.getElementById('shareCardBtn')?.addEventListener('click', generateShareCard);
 }

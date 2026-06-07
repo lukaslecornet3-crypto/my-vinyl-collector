@@ -184,6 +184,11 @@
   background:var(--bg-3); padding:.75rem;
   border-radius:var(--radius); line-height:1.5;
 }
+.share-card-section {
+  display:flex; flex-direction:column; gap:.6rem;
+  border-top:1px solid var(--border); padding-top:1rem; margin-top:.25rem;
+}
+.share-card-title { font-size:.85rem; font-weight:600; color:var(--text); }
 
 /* ============================================================
    MODAL ÉDITION
